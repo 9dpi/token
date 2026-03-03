@@ -139,6 +139,15 @@
             gap: 10px;
         }
 
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--gold);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
         .logo-icon {
             width: 32px;
             height: 32px;
@@ -632,6 +641,215 @@
             }
         }
 
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header {
+                height: 64px;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 0 15px;
+            }
+
+            .main-nav {
+                position: fixed;
+                top: 64px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 64px);
+                background: var(--bg-card);
+                flex-direction: column;
+                align-items: center;
+                padding-top: 40px;
+                transition: 0.3s;
+                z-index: 1000;
+                overflow-x: hidden;
+            }
+
+            .main-nav.active {
+                left: 0;
+            }
+
+            .main-nav a {
+                font-size: 18px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+                line-height: 1.2;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-guide {
+                display: none !important;
+            }
+
+            .tabs button:last-child {
+                display: none;
+            }
+
+            /* Turn table into cards */
+            .market-table thead {
+                display: none;
+            }
+
+            .market-table,
+            .market-table tbody,
+            .market-table tr,
+            .market-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .market-table tr {
+                background: #181A20;
+                margin-bottom: 20px;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 15px;
+            }
+
+            .market-table td {
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .market-table td:last-child {
+                border-bottom: none;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .market-table td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: var(--text-sub);
+                font-size: 11px;
+                text-transform: uppercase;
+            }
+
+            .market-table td:first-child::before {
+                display: none;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--gold);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            color: var(--text-sub);
+            cursor: pointer;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .modal-row .label {
+            color: var(--text-sub);
+            font-size: 13px;
+        }
+
+        .modal-row .value {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .modal-long-benefit {
+            background: rgba(0, 210, 255, 0.05);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .modal-footer {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-buy-btn {
+            flex: 1;
+            text-align: center;
+            background: var(--gold);
+            color: black;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .modal-buy-btn:hover {
+            background: white;
+        }
+
         .animate-in {
             animation: fadeIn 0.6s ease both;
         }
@@ -646,25 +864,6 @@
 
         .delay-3 {
             animation-delay: 0.45s;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 28px;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-
-            .main-nav {
-                display: none;
-            }
-
-            .market-table .sparkline-cell {
-                display: none;
-            }
         }
     </style>
 </head>
@@ -685,13 +884,14 @@
             </a>
         </div>
         <div class="header-right">
-            <nav class="main-nav">
+            <nav class="main-nav" id="mainNav">
                 <a href="index.html" class="active">Home</a>
                 <a href="market.html">Market</a>
                 <a href="ai-models.html">AI Models</a>
                 <a href="https://9dpi.github.io/quantix-ai-core/index.html" target="_blank">Quantix AI</a>
                 <a href="https://www.linkedin.com/in/cuongvq/" target="_blank">Contact</a>
             </nav>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
             <span class="badge">🟢 LIVE</span>
         </div>
     </header>
@@ -758,7 +958,7 @@
                 </div>
                 <div
                     style="margin-top: auto; font-size: 11px; color: var(--gold); background: rgba(212,175,55,0.1); padding: 10px; border-radius: 8px;">
-                    * Rates are calculated based on official API costs from providers.
+                    * Rates are calculated based on official provider API costs.
                 </div>
             </div>
         </div>
@@ -806,6 +1006,14 @@
             <div class="feature-icon">🔒</div>
             <h3>No Login Required</h3>
             <p>Free access to view rates and use the conversion tools without creating an account.</p>
+        </div>
+    </div>
+
+    <!-- MODAL DETAIL -->
+    <div class="modal-overlay" id="detailModal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <div id="modalBodyContent"></div>
         </div>
     </div>
 
@@ -923,8 +1131,8 @@
                 const config = AI_PRICING[item.id] || AI_PRICING.GPT4O;
 
                 return `
-                    <tr>
-                        <td>
+                    <tr style="cursor:pointer" onclick="showBenefitDetail('${item.id}')">
+                        <td data-label="Model">
                             <div class="pair-cell">
                                 <div class="pair-icon" style="background:${config.color}">${config.icon}</div>
                                 <div>
@@ -933,20 +1141,57 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="provider-cell">${item.provider}</td>
-                        <td class="price-cell">
+                        <td data-label="Provider" class="provider-cell">${item.provider}</td>
+                        <td data-label="Best Price" class="price-cell">
                             $${item.price.toFixed(2)}
                             <span class="saving-tag">-${item.savings}</span>
                         </td>
-                        <td class="speed-val">${item.speed}</td>
-                        <td><span class="vfm-badge">${item.vfm}</span></td>
-                        <td>
+                        <td data-label="Avg Speed" class="speed-val">${item.speed}</td>
+                        <td data-label="VFM Score"><span class="vfm-badge">${item.vfm}</span></td>
+                        <td data-label="Benefit">
                             <div style="font-size: 11px; color: var(--text-sub); margin-bottom: 4px;">${item.benefit}</div>
-                            <a href="${item.buyUrl}" target="_blank" class="buy-btn" onclick="event.stopPropagation()">Buy @ ${item.provider}</a>
+                            <a href="${item.buyUrl}" target="_blank" class="buy-btn" onclick="event.stopPropagation()">Buy Now</a>
                         </td>
                     </tr>
                 `;
             }).join('');
+        }
+
+        function showBenefitDetail(id) {
+            const item = AI_BENEFITS_DATA.find(x => x.id === id);
+            const config = AI_PRICING[id];
+            if (!item || !config) return;
+
+            const content = `
+                <div class="modal-header">
+                    <div class="pair-icon" style="background:${config.color}; width:48px; height:48px; font-size:20px;">${config.icon}</div>
+                    <div class="modal-title">${item.model}</div>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-row"><span class="label">Provider</span><span class="value">${item.provider}</span></div>
+                    <div class="modal-row"><span class="label">Best Price</span><span class="value">$${item.price.toFixed(2)}/1M tokens</span></div>
+                    <div class="modal-row"><span class="label">Savings</span><span class="value" style="color:var(--green)">-${item.savings} vs Market</span></div>
+                    <div class="modal-row"><span class="label">Response Speed</span><span class="value" style="color:var(--gold)">${item.speed}</span></div>
+                    <div class="modal-row"><span class="label">VFM Score</span><span class="value vfm-badge">${item.vfm}</span></div>
+                    <div class="modal-long-benefit">
+                        <strong>Why choose this?</strong><br>
+                        ${item.benefit} This is the optimal choice for projects balancing quality and budget.
+                    </div>
+                    <div class="modal-footer">
+                        <a href="${item.buyUrl}" target="_blank" class="modal-buy-btn">Get Started @ ${item.provider}</a>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modalBodyContent').innerHTML = content;
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        function toggleMenu() {
+            document.getElementById('mainNav').classList.toggle('active');
         }
 
         function filterTable(type, btn) {

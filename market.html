@@ -560,6 +560,57 @@
                 display: none;
             }
         }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
+                height: calc(100vh - 120px);
+            }
+
+            .center-panel {
+                display: none !important;
+            }
+
+            .sidebar-left,
+            .sidebar-right {
+                display: flex !important;
+                border: none;
+                overflow: visible;
+                background: var(--bg);
+            }
+
+            .sidebar-right {
+                border-top: 1px solid var(--border);
+                padding-top: 20px;
+                background: var(--bg-card);
+            }
+
+            .header {
+                height: auto;
+                flex-direction: column;
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .nav-tabs {
+                width: 100%;
+                overflow-x: auto;
+                justify-content: center;
+                padding-bottom: 5px;
+            }
+
+            .status-bar {
+                display: none !important;
+            }
+
+            .pair-list,
+            .thinking-log {
+                flex: none;
+                height: auto;
+                max-height: 400px;
+            }
+        }
     </style>
 </head>
 

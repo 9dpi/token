@@ -107,6 +107,48 @@
             color: var(--gold);
         }
 
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--gold);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .benefit-tag {
+            display: inline-block;
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--cyan);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        .buy-now-btn {
+            display: block;
+            width: 100%;
+            background: var(--gold);
+            color: black;
+            text-align: center;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            margin-top: 24px;
+            text-transform: uppercase;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .buy-now-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -232,6 +274,47 @@
             color: var(--text-sub);
             font-size: 13px;
         }
+
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 15px;
+            }
+
+            .main-nav {
+                position: fixed;
+                top: 64px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 64px);
+                background: var(--bg);
+                flex-direction: column;
+                align-items: center;
+                padding-top: 40px;
+                transition: 0.3s;
+                z-index: 1000;
+            }
+
+            .main-nav.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .model-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .model-card {
+                padding: 24px;
+            }
+        }
     </style>
 </head>
 
@@ -243,13 +326,16 @@
                 <span class="logo-text">AI TOKEN INDEX</span>
             </a>
         </div>
-        <nav class="main-nav">
-            <a href="index.html">Home</a>
-            <a href="market.html">Market</a>
-            <a href="ai-models.html" class="active">AI Models</a>
-            <a href="https://9dpi.github.io/quantix-ai-core/index.html" target="_blank">Quantix AI</a>
-            <a href="https://www.linkedin.com/in/cuongvq/" target="_blank">Contact</a>
-        </nav>
+        <div class="header-right" style="display: flex; align-items: center; gap: 15px;">
+            <nav class="main-nav" id="mainNav">
+                <a href="index.html">Home</a>
+                <a href="market.html">Market</a>
+                <a href="ai-models.html" class="active">AI Models</a>
+                <a href="https://9dpi.github.io/quantix-ai-core/index.html" target="_blank">Quantix AI</a>
+                <a href="https://www.linkedin.com/in/cuongvq/" target="_blank">Contact</a>
+            </nav>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+        </div>
     </header>
 
     <div class="container">
@@ -289,11 +375,14 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="benefit-tag">⚡ Best for General Intelligence & Apps</div>
                 <ul class="features">
                     <li>Multi-modal support (Text, Image)</li>
                     <li>Extremely fast response speed</li>
                     <li>High-level logical reasoning capabilities</li>
                 </ul>
+                <a href="https://openrouter.ai/models/openai/gpt-4o" target="_blank" class="buy-now-btn">Get Started
+                    Now</a>
             </div>
 
             <!-- Claude 3.5 -->
@@ -325,11 +414,13 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="benefit-tag">🖋️ Best for Creative Writing & Coding</div>
                 <ul class="features">
                     <li>Context Window up to 200K tokens</li>
                     <li>Superior coding and debugging</li>
                     <li>Most human-like communication style</li>
                 </ul>
+                <a href="https://www.anthropic.com/claude" target="_blank" class="buy-now-btn">Access Claude Now</a>
             </div>
 
             <!-- DeepSeek-V3 -->
@@ -361,11 +452,14 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="benefit-tag">💰 Best for Cost Optimization (90% Save)</div>
                 <ul class="features">
                     <li>10-20x cheaper than competitors</li>
                     <li>Impressive math and coding performance</li>
                     <li>Optimized for bulk processing tasks</li>
                 </ul>
+                <a href="https://www.together.ai/models/deepseek-v3" target="_blank" class="buy-now-btn">Save 90%
+                    Now</a>
             </div>
 
             <!-- Gemini 2.5 -->
@@ -397,11 +491,13 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="benefit-tag">🚀 Best for Speed & Large Context</div>
                 <ul class="features">
                     <li>Deep integration with Google search data</li>
                     <li>1M+ token context window capability</li>
                     <li>Lowest latency in its class</li>
                 </ul>
+                <a href="https://cloud.google.com/vertex-ai" target="_blank" class="buy-now-btn">Use Gemini Now</a>
             </div>
         </div>
     </div>
@@ -409,7 +505,11 @@
     <footer>
         <p>© 2026 AI Token Index — Powered by <a href="https://9dpi.github.io/quantix-ai-core/index.html"
                 target="_blank" style="color:var(--gold); font-weight:700;">Quantix AI Core</a></p>
-    </footer>
+        <script>
+            function toggleMenu() {
+                document.getElementById('mainNav').classList.toggle('active');
+            }
+        </script>
 </body>
 
 </html>
