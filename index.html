@@ -6,6 +6,8 @@
     <title>AI Token Index — Gateway to AI Economy</title>
     <meta name="description"
         content="World's first AI Token exchange index. Convert between fiat, gold, crypto and AI Tokens from OpenAI, Gemini, DeepSeek, Claude.">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.binance.com; img-src 'self' data:;">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
         rel="stylesheet">
@@ -645,7 +647,7 @@
             <!-- CONVERTER WIDGET -->
             <div class="converter animate-in delay-1">
                 <div class="converter-row">
-                    <input type="number" id="fromAmount" value="1" oninput="convert()">
+                    <input type="number" id="fromAmount" value="1" min="0" step="any" oninput="convert()">
                     <select id="fromCurrency" onchange="convert()">
                         <option value="USD">🇺🇸 USD</option>
                         <option value="EUR">🇪🇺 EUR</option>
@@ -898,7 +900,7 @@
 
         // ===== CONVERTER =====
         function convert() {
-            const amount = parseFloat(document.getElementById('fromAmount').value) || 0;
+            const amount = Math.max(0, parseFloat(document.getElementById('fromAmount').value) || 0);
             const from = document.getElementById('fromCurrency').value;
             const to = document.getElementById('toCurrency').value;
 
@@ -925,7 +927,7 @@
             const fromSel = document.getElementById('fromCurrency');
             const toSel = document.getElementById('toCurrency');
             // Can't fully swap since they have different option sets, but we can signal
-            alert('Tính năng hoán đổi sẽ được cập nhật trong phiên bản tiếp theo');
+            document.getElementById('converterRate').innerHTML = '⇅ Swap feature coming soon';
         }
 
         // ===== INIT =====
