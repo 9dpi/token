@@ -19,28 +19,28 @@ async function scanPrices() {
             GPT4O: {
                 ids: ['gpt-4o', 'openai/gpt-4o'],
                 name: 'GPT-4o',
-                logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg',
+                logo: 'logos/chatgpt.svg',
                 color: '#10A37F',
                 benefit: 'Smartest & Reliable'
             },
             CLAUDE: {
                 ids: ['claude-3-5-sonnet-20240620', 'claude-3-5-sonnet', 'anthropic/claude-3-5-sonnet'],
                 name: 'Claude 3.5',
-                logo: 'https://cdn.worldvectorlogo.com/logos/anthropic-icon.svg',
+                logo: 'logos/claude.svg',
                 color: '#D97706',
                 benefit: 'Creative & Precise Writing'
             },
             GEMINI: {
                 ids: ['gemini/gemini-1.5-pro', 'google/gemini-1.5-pro', 'gemini-1.5-pro'],
                 name: 'Gemini 2.5 Pro',
-                logo: 'https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d473530c2731b4cc6b7d5.svg',
+                logo: 'logos/gemini.svg',
                 color: '#4285F4',
                 benefit: 'Massive Context Window'
             },
             DEEPSEEK: {
                 ids: ['deepseek/deepseek-chat', 'deepseek-v3', 'deepseek-chat'],
                 name: 'DeepSeek-V3',
-                logo: 'https://chat.deepseek.com/favicon.svg',
+                logo: 'logos/deepseek.svg',
                 color: '#6366F1',
                 benefit: '90% Cost Savings'
             }
