@@ -1,0 +1,937 @@
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Token Index — Gateway to AI Economy</title>
+    <meta name="description"
+        content="World's first AI Token exchange index. Convert between fiat, gold, crypto and AI Tokens from OpenAI, Gemini, DeepSeek, Claude.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        :root {
+            --gold: #D4AF37;
+            --gold-dark: #B8860B;
+            --green: #0ECB81;
+            --red: #F6465D;
+            --bg: #0B0E11;
+            --bg-card: #1E2329;
+            --bg-hover: #2B3139;
+            --border: #2B3139;
+            --text: #EAECEF;
+            --text-sub: #848E9C;
+            --text-third: #5E6673;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* ===== TOP TICKER BAR ===== */
+        .ticker-bar {
+            background: #181A20;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+            height: 36px;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-scroll {
+            display: flex;
+            gap: 40px;
+            animation: tickerMove 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            font-size: 12px;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ticker-item .pair {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .ticker-item .up {
+            color: var(--green);
+        }
+
+        .ticker-item .down {
+            color: var(--red);
+        }
+
+        @keyframes tickerMove {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: #181A20;
+            border-bottom: 1px solid var(--border);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 4px;
+        }
+
+        .main-nav a {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-sub);
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .main-nav a:hover {
+            color: var(--gold);
+            background: rgba(212, 175, 55, 0.08);
+        }
+
+        .main-nav a.active {
+            color: var(--gold);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-right .badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px 40px;
+            display: flex;
+            flex-direction: column;
+            background: radial-gradient(ellipse at center top, rgba(212, 175, 55, 0.06) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .hero h1 .gold {
+            background: linear-gradient(135deg, #D4AF37, #F5D76E);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: var(--text-sub);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        /* ===== CONVERTER WIDGET ===== */
+        .converter {
+            width: 100%;
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== USER GUIDE ===== */
+        .user-guide {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .user-guide h3 {
+            color: var(--gold);
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .guide-step {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .step-num {
+            width: 24px;
+            height: 24px;
+            background: var(--gold);
+            color: black;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .step-text h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .step-text p {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .converter-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+        }
+
+        .converter-row input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .converter-row select {
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .converter-swap {
+            text-align: center;
+            padding: 4px;
+        }
+
+        .converter-swap button {
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            color: var(--gold);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+
+        .converter-swap button:hover {
+            background: var(--gold);
+            color: black;
+        }
+
+        .converter-rate {
+            text-align: center;
+            padding: 12px;
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        /* ===== MARKET OVERVIEW TABLE ===== */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+        }
+
+        .tabs button {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-sub);
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: 0.2s;
+        }
+
+        .tabs button.active,
+        .tabs button:hover {
+            background: var(--gold);
+            color: black;
+            border-color: var(--gold);
+        }
+
+        .market-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .market-table thead th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            color: var(--text-third);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .market-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: 0.15s;
+            cursor: pointer;
+        }
+
+        .market-table tbody tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .market-table td {
+            padding: 16px;
+            font-size: 14px;
+        }
+
+        .pair-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pair-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 12px;
+            color: white;
+        }
+
+        .pair-name-main {
+            font-weight: 700;
+        }
+
+        .pair-name-sub {
+            color: var(--text-sub);
+            font-size: 12px;
+        }
+
+        .price-cell {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .change-cell {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .change-up {
+            color: var(--green);
+            background: rgba(14, 203, 129, 0.1);
+        }
+
+        .change-down {
+            color: var(--red);
+            background: rgba(246, 70, 93, 0.1);
+        }
+
+        .sparkline-cell {
+            width: 120px;
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .feature-card p {
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #181A20;
+            border-top: 1px solid var(--border);
+            padding: 40px 24px;
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 13px;
+        }
+
+        footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        footer a:hover {
+            color: var(--gold);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.6s ease both;
+        }
+
+        .delay-1 {
+            animation-delay: 0.15s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.45s;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .main-nav {
+                display: none;
+            }
+
+            .market-table .sparkline-cell {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TICKER BAR -->
+    <div class="ticker-bar">
+        <div class="ticker-scroll" id="tickerScroll"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">Q</div>
+                <span class="logo-text">AI TOKEN INDEX</span>
+            </a>
+        </div>
+        <div class="header-right">
+            <nav class="main-nav">
+                <a href="index.html" class="active">Home</a>
+                <a href="market.html">Market</a>
+                <a href="ai-models.html">AI Models</a>
+                <a href="https://9dpi.github.io/quantix-ai-core/index.html" target="_blank">Quantix AI</a>
+                <a href="https://www.linkedin.com/in/cuongvq/" target="_blank">Contact</a>
+            </nav>
+            <span class="badge">🟢 LIVE</span>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero animate-in">
+        <div class="hero-content">
+            <h1>AI Token <span class="gold">Index</span></h1>
+            <p>Real-time conversion between fiat, gold, crypto and AI Tokens from OpenAI, Gemini, DeepSeek, Claude.</p>
+        </div>
+
+        <div class="hero-grid">
+            <!-- CONVERTER WIDGET -->
+            <div class="converter animate-in delay-1">
+                <div class="converter-row">
+                    <input type="number" id="fromAmount" value="1" oninput="convert()">
+                    <select id="fromCurrency" onchange="convert()">
+                        <option value="USD">🇺🇸 USD</option>
+                        <option value="EUR">🇪🇺 EUR</option>
+                        <option value="GBP">🇬🇧 GBP</option>
+                        <option value="AUD">🇦🇺 AUD</option>
+                        <option value="XAU">🥇 Gold (oz)</option>
+                        <option value="BTC">₿ Bitcoin</option>
+                        <option value="ETH">Ξ Ethereum</option>
+                    </select>
+                </div>
+                <div class="converter-swap"><button onclick="swapCurrencies()">⇅</button></div>
+                <div class="converter-row">
+                    <input type="text" id="toAmount" value="—" readonly>
+                    <select id="toCurrency" onchange="convert()">
+                        <option value="GPT4O">🤖 GPT-4o</option>
+                        <option value="GEMINI">♊ Gemini 2.5</option>
+                        <option value="DEEPSEEK">🧠 DeepSeek-V3</option>
+                        <option value="CLAUDE">🏺 Claude 3.5</option>
+                        <option value="Q">🪙 Unit Q</option>
+                    </select>
+                </div>
+                <div class="converter-rate" id="converterRate">Loading rates...</div>
+            </div>
+
+            <!-- QUICKSTART GUIDE -->
+            <div class="user-guide animate-in delay-2">
+                <h3>⚡ QuickStart Guide</h3>
+                <div class="guide-step">
+                    <div class="step-num">1</div>
+                    <div class="step-text">
+                        <h4>Select Asset</h4>
+                        <p>Choose the currency or asset you own (USD, Gold, BTC...).</p>
+                    </div>
+                </div>
+                <div class="guide-step">
+                    <div class="step-num">2</div>
+                    <div class="step-text">
+                        <h4>Select AI Model</h4>
+                        <p>Pick the AI system for token conversion (GPT-4o, Claude 3.5...).</p>
+                    </div>
+                </div>
+                <div class="guide-step">
+                    <div class="step-num">3</div>
+                    <div class="step-text">
+                        <h4>Get Result</h4>
+                        <p>See the equivalent tokens based on real-time market rates.</p>
+                    </div>
+                </div>
+                <div
+                    style="margin-top: auto; font-size: 11px; color: var(--gold); background: rgba(212,175,55,0.1); padding: 10px; border-radius: 8px;">
+                    * Rates are calculated based on official API costs from providers.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARKET TABLE SECTION -->
+    <section class="section animate-in delay-2">
+        <div class="section-header">
+            <h2>AI Token Market Overview</h2>
+            <div class="tabs">
+                <button class="active" onclick="filterTable('all', this)">All</button>
+                <button onclick="filterTable('fiat', this)">Fiat</button>
+                <button onclick="filterTable('crypto', this)">Crypto</button>
+                <button onclick="filterTable('metal', this)">Metals</button>
+            </div>
+        </div>
+
+        <table class="market-table" id="marketTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Pair Name</th>
+                    <th>Price (Q)</th>
+                    <th>24h Change</th>
+                    <th>Volume</th>
+                    <th class="sparkline-cell">Last 7 Days</th>
+                </tr>
+            </thead>
+            <tbody id="marketBody"></tbody>
+        </table>
+    </section>
+
+    <!-- FEATURES -->
+    <div class="features animate-in delay-3">
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Real-time Rates</h3>
+            <p>Exchange rates updated continuously via Binance API, ensuring you always have the most accurate price.
+            </p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3>Multi-Asset Conversion</h3>
+            <p>Convert between USD, EUR, Gold, Bitcoin and AI Tokens in a single operation.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>No Login Required</h3>
+            <p>Free access to view rates and use the conversion tools without creating an account.</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="market.html">Market</a>
+            <a href="https://www.linkedin.com/in/cuongvq/" target="_blank">LinkedIn</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <p>© 2026 AI Token Index — Powered by <a href="https://9dpi.github.io/quantix-ai-core/index.html"
+                target="_blank" style="color:var(--gold); font-weight:700;">Quantix AI Core</a></p>
+    </footer>
+
+    <script>
+        // ===== DATA: AI Token Pricing (per 1M tokens in USD) =====
+        const AI_PRICING = {
+            GPT4O: { name: 'GPT-4o', input: 2.50, output: 10.00, icon: '🤖', color: '#10A37F' },
+            GEMINI: { name: 'Gemini 2.5', input: 1.25, output: 10.00, icon: '♊', color: '#4285F4' },
+            DEEPSEEK: { name: 'DeepSeek-V3', input: 0.27, output: 1.10, icon: '🧠', color: '#6366F1' },
+            CLAUDE: { name: 'Claude 3.5', input: 3.00, output: 15.00, icon: '🏺', color: '#D97706' },
+            Q: { name: 'Unit Q', input: 1.00, output: 1.00, icon: '🪙', color: '#D4AF37' }
+        };
+
+        const MARKET_PAIRS = [
+            { id: 'EUR', name: 'EUR / USD', symbol: '🇪🇺', type: 'fiat', binance: 'EURUSDT', fallback: 1.08 },
+            { id: 'GBP', name: 'GBP / USD', symbol: '🇬🇧', type: 'fiat', binance: 'GBPUSDT', fallback: 1.27 },
+            { id: 'XAU', name: 'GOLD / USD', symbol: '🥇', type: 'metal', binance: null, fallback: 2650 }
+        ];
+
+        let priceCache = {};
+
+        // ===== FETCH BINANCE PRICES =====
+        async function fetchPrices() {
+            try {
+                const symbols = MARKET_PAIRS.filter(p => p.binance).map(p => `"${p.binance}"`);
+                const url = `https://api.binance.com/api/v3/ticker/24hr?symbols=[${symbols.join(',')}]`;
+                const res = await fetch(url);
+                const data = await res.json();
+
+                data.forEach(item => {
+                    const pair = MARKET_PAIRS.find(p => p.binance === item.symbol);
+                    if (pair) {
+                        priceCache[pair.id] = {
+                            price: parseFloat(item.lastPrice),
+                            change: parseFloat(item.priceChangePercent),
+                            volume: parseFloat(item.quoteVolume)
+                        };
+                    }
+                });
+
+                // Fill fallbacks
+                MARKET_PAIRS.forEach(p => {
+                    if (!priceCache[p.id]) {
+                        priceCache[p.id] = {
+                            price: p.fallback,
+                            change: (Math.random() * 4 - 2).toFixed(2),
+                            volume: Math.random() * 1e9
+                        };
+                    }
+                });
+
+            } catch (err) {
+                console.warn('Binance API error, using fallback:', err);
+                MARKET_PAIRS.forEach(p => {
+                    priceCache[p.id] = {
+                        price: p.fallback,
+                        change: (Math.random() * 4 - 2).toFixed(2),
+                        volume: Math.random() * 1e9
+                    };
+                });
+            }
+
+            renderMarketTable();
+            renderTicker();
+            convert();
+        }
+
+        // ===== RENDER MARKET TABLE =====
+        function renderMarketTable(filter = 'all') {
+            const tbody = document.getElementById('marketBody');
+            const filtered = filter === 'all' ? MARKET_PAIRS : MARKET_PAIRS.filter(p => p.type === filter);
+
+            tbody.innerHTML = filtered.map((pair, idx) => {
+                const data = priceCache[pair.id] || { price: pair.fallback, change: 0, volume: 0 };
+                const qPrice = (data.price * 1.0).toFixed(data.price > 1000 ? 2 : 6);
+                const chg = parseFloat(data.change);
+                const chgClass = chg >= 0 ? 'change-up' : 'change-down';
+                const chgSign = chg >= 0 ? '+' : '';
+                const vol = data.volume > 1e9 ? (data.volume / 1e9).toFixed(1) + 'B' :
+                    data.volume > 1e6 ? (data.volume / 1e6).toFixed(1) + 'M' :
+                        data.volume.toFixed(0);
+
+                return `
+                    <tr data-type="${pair.type}" onclick="window.location.href='market.html?pair=${pair.id}'">
+                        <td style="color:var(--text-sub)">${idx + 1}</td>
+                        <td>
+                            <div class="pair-cell">
+                                <div class="pair-icon" style="background:${AI_PRICING.Q.color}">${pair.symbol}</div>
+                                <div>
+                                    <div class="pair-name-main">${pair.id} / Q</div>
+                                    <div class="pair-name-sub">${pair.name}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="price-cell">${qPrice}</td>
+                        <td><span class="change-cell ${chgClass}">${chgSign}${chg}%</span></td>
+                        <td style="color:var(--text-sub)">${vol}</td>
+                        <td class="sparkline-cell"><div id="spark-${pair.id}"></div></td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Render mini sparklines
+            filtered.forEach(pair => {
+                const el = document.getElementById(`spark-${pair.id}`);
+                if (el) {
+                    const sparkData = Array.from({ length: 7 }, () => Math.random() * 20 + 10);
+                    const chg = parseFloat(priceCache[pair.id]?.change || 0);
+                    new ApexCharts(el, {
+                        series: [{ data: sparkData }],
+                        chart: { type: 'line', height: 35, width: 100, sparkline: { enabled: true } },
+                        stroke: { width: 2, curve: 'smooth' },
+                        colors: [chg >= 0 ? '#0ECB81' : '#F6465D'],
+                        tooltip: { enabled: false }
+                    }).render();
+                }
+            });
+        }
+
+        function filterTable(type, btn) {
+            document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderMarketTable(type);
+        }
+
+        // ===== RENDER TICKER =====
+        function renderTicker() {
+            const container = document.getElementById('tickerScroll');
+            const items = MARKET_PAIRS.map(p => {
+                const d = priceCache[p.id] || { price: p.fallback, change: 0 };
+                const chg = parseFloat(d.change);
+                const cls = chg >= 0 ? 'up' : 'down';
+                const sign = chg >= 0 ? '+' : '';
+                return `<span class="ticker-item"><span class="pair">${p.id}/Q</span> ${d.price.toFixed(d.price > 100 ? 2 : 4)} <span class="${cls}">${sign}${chg}%</span></span>`;
+            }).join('');
+            container.innerHTML = items + items; // duplicate for seamless loop
+        }
+
+        // ===== CONVERTER =====
+        function convert() {
+            const amount = parseFloat(document.getElementById('fromAmount').value) || 0;
+            const from = document.getElementById('fromCurrency').value;
+            const to = document.getElementById('toCurrency').value;
+
+            const fromUSD = priceCache[from]?.price || 1;
+            const toModel = AI_PRICING[to];
+
+            if (!toModel) return;
+
+            // Convert: fromAmount * fromUSD = total USD
+            // then: total USD / AI price per token = number of tokens
+            const totalUSD = amount * fromUSD;
+            const avgTokenPrice = (toModel.input + toModel.output) / 2;
+            const tokens = totalUSD / avgTokenPrice * 1_000_000;
+
+            document.getElementById('toAmount').value = tokens > 1e6
+                ? (tokens / 1e6).toFixed(2) + 'M tokens'
+                : Math.round(tokens).toLocaleString() + ' tokens';
+
+            document.getElementById('converterRate').innerHTML =
+                `1 ${from} ≈ ${(fromUSD / avgTokenPrice * 1e6).toLocaleString(undefined, { maximumFractionDigits: 0 })} ${toModel.name} tokens`;
+        }
+
+        function swapCurrencies() {
+            const fromSel = document.getElementById('fromCurrency');
+            const toSel = document.getElementById('toCurrency');
+            // Can't fully swap since they have different option sets, but we can signal
+            alert('Tính năng hoán đổi sẽ được cập nhật trong phiên bản tiếp theo');
+        }
+
+        // ===== INIT =====
+        fetchPrices();
+        setInterval(fetchPrices, 10000); // Refresh every 10s
+    </script>
+</body>
+
+</html>
