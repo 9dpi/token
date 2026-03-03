@@ -1,10 +1,10 @@
-// T? ??ng c?p nh?t t? Google AppScript
+// Tự động cập nhật từ Google AppScript
 const AI_PRICING = {
   "Q": {
     "name": "Unit Q",
     "input": 1,
     "output": 1,
-    "icon": "?",
+    "icon": "🪙",
     "color": "#D4AF37",
     "benefit": "Internal Index"
   },
@@ -17,7 +17,7 @@ const AI_PRICING = {
     "benefit": "Market Live Data"
   },
   "GEMINI": {
-    "name": "Gemini 1.5 Pro",
+    "name": "Gemini 2.5 Pro",
     "input": 1.25,
     "output": 5,
     "icon": "logos/gemini.svg",
@@ -69,3 +69,12 @@ const AI_BENEFITS_DATA = [
   }
 ];
 const LAST_UPDATE = "3/3/2026, 11:42:37 AM";
+
+const MARKET_PAIRS = [
+  { id: 'BTC', name: 'Bitcoin', symbol: '₿', type: 'crypto', binance: 'BTCUSDT', fallback: 96000 },
+  { id: 'ETH', name: 'Ethereum', symbol: 'Ξ', type: 'crypto', binance: 'ETHUSDT', fallback: 3800 },
+  { id: 'XAU', name: 'GOLD', symbol: '🥇', type: 'metal', binance: 'PAXGUSDT', fallback: 2650 },
+  { id: 'EUR', name: 'Euro', symbol: '🇪🇺', type: 'fiat', binance: 'EURUSDT', fallback: 1.08 },
+  { id: 'GBP', name: 'Pound', symbol: '🇬🇧', type: 'fiat', binance: 'GBPUSDT', fallback: 1.27 },
+  { id: 'USD', name: 'US Dollar', symbol: '🇺🇸', type: 'fiat', binance: null, fallback: 1.0 }
+];
