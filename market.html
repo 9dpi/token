@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Terminal — AI Token Index</title>
     <meta name="description"
-        content="Real-time trading terminal for AI Tokens. Monitor market rates, technical charts, and AI-driven analysis.">
+        content="Real-time terminal for AI Tokens. Monitor market rates, technical charts, and system conversion logs.">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
         rel="stylesheet">
@@ -644,7 +644,7 @@
             <div class="exec-section">
                 <div class="exec-header">
                     <button class="exec-tab active">Token Execution Log</button>
-                    <button class="exec-tab">AI Predictions</button>
+                    <button class="exec-tab">System Diagnostics</button>
                     <button class="exec-tab">Conversion History</button>
                 </div>
                 <div class="exec-table-wrap">
@@ -701,16 +701,17 @@
         <!-- RIGHT: AI ANALYSIS -->
         <aside class="sidebar-right">
             <div class="sidebar-right-header">
-                <span style="color:var(--cyan)">⚡</span> Neural Market Feed
+                <span style="color:var(--cyan)">⚡</span> System Status Feed
             </div>
 
             <div class="ai-section">
-                <div class="ai-section-title">Market Summary</div>
-                <div class="ai-metric"><span class="label">Trend</span><span class="value" style="color:var(--green)">📈
-                        BULLISH</span></div>
-                <div class="ai-metric"><span class="label">Volatility</span><span class="value">Neutral</span></div>
-                <div class="ai-metric"><span class="label">AI Confidence</span><span class="value"
-                        style="color:var(--cyan)">78%</span></div>
+                <div class="ai-section-title">Operational Status</div>
+                <div class="ai-metric"><span class="label">Network</span><span class="value"
+                        style="color:var(--green)">✓
+                        STABLE</span></div>
+                <div class="ai-metric"><span class="label">API Sync</span><span class="value">Active</span></div>
+                <div class="ai-metric"><span class="label">Sync Accuracy</span><span class="value"
+                        style="color:var(--cyan)">99.9%</span></div>
             </div>
 
             <div class="ai-section">
@@ -733,26 +734,26 @@
             </div>
 
             <div class="thinking-log">
-                <div class="thinking-log-title"><span style="color:var(--cyan)">▸</span> Thinking Logs</div>
+                <div class="thinking-log-title"><span style="color:var(--cyan)">▸</span> System Event Logs</div>
                 <div class="log-entry">
-                    <span class="timestamp">[09:21:04]</span> <span class="highlight">ANALYSIS</span> GPT-4o pricing
-                    stable. Input/Output ratio maintained at 1:4 spread.
+                    <span class="timestamp">[09:21:04]</span> <span class="highlight">INFO</span> Model pricing data
+                    refreshed. All conversion ratios updated.
                 </div>
                 <div class="log-entry">
-                    <span class="timestamp">[09:20:58]</span> <span class="warn">ALERT</span> BTC volatility spike
-                    detected (+2.3% in 5m). Adjusting Q conversion buffer...
+                    <span class="timestamp">[09:20:58]</span> <span class="highlight">SYNC</span> Rate update received.
+                    Currency buffers synchronized with Binance API.
                 </div>
                 <div class="log-entry">
-                    <span class="timestamp">[09:20:30]</span> <span class="highlight">SYNC</span> Binance WebSocket
-                    reconnected. Feed latency: 42ms.
+                    <span class="timestamp">[09:20:30]</span> <span class="highlight">INFO</span> WebSocket connection
+                    stable. Latency measured at 42ms.
                 </div>
                 <div class="log-entry">
-                    <span class="timestamp">[09:19:55]</span> DeepSeek-V3 remains most cost-efficient model at $0.27/1M
-                    input tokens. Recommended for bulk operations.
+                    <span class="timestamp">[09:19:55]</span> AI Pricing: GPT-4o and DeepSeek-V3 rates confirmed. No
+                    change in unit costs.
                 </div>
                 <div class="log-entry">
-                    <span class="timestamp">[09:19:10]</span> <span class="highlight">CONVERT</span> EUR→Claude 3.5:
-                    500K tokens completed. Deducted 4.50 Q from pool.
+                    <span class="timestamp">[09:19:10]</span> <span class="highlight">EVENT</span> Conversion process
+                    logged for record #9102. Request validated.
                 </div>
             </div>
         </aside>
