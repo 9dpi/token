@@ -1,0 +1,29 @@
+name: Daily AI Price Scanner
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at midnight
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Price Scanner
+        run: node price_scanner.js
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "AI Price Bot"
+          git config --global user.email "bot@quantix.ai"
+          git add data.js
+          git commit -m "🤖 Auto-update AI rates [$(date +'%Y-%m-%d')]" || echo "No changes to commit"
+          git push
