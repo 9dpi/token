@@ -24,6 +24,7 @@
             --bg-card: #1E2329;
             --bg-hover: #2B3139;
             --border: #2B3139;
+            --cyan: #00D2FF;
             --text: #EAECEF;
             --text-sub: #848E9C;
             --text-third: #5E6673;
@@ -193,6 +194,65 @@
             padding: 4px 10px;
             border: 1px solid var(--gold);
             border-radius: 20px;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .buy-btn {
+            display: inline-block;
+            background: var(--gold);
+            color: black;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+            text-transform: uppercase;
+            margin-top: 4px;
+            text-decoration: none;
+        }
+
+        .buy-btn:hover {
+            background: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+        }
+
+        /* ===== VFM BADGE & METRICS ===== */
+        .vfm-badge {
+            background: rgba(0, 210, 255, 0.15);
+            color: var(--cyan);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 13px;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+        }
+
+        .metric-label {
+            font-size: 10px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+        }
+
+        .saving-tag {
+            background: rgba(14, 203, 129, 0.15);
+            color: var(--green);
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
+        .provider-cell {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .speed-val {
+            font-family: 'JetBrains Mono';
             color: var(--gold);
             font-weight: 700;
         }
@@ -707,24 +767,22 @@
     <!-- MARKET TABLE SECTION -->
     <section class="section animate-in delay-2">
         <div class="section-header">
-            <h2>AI Token Market Overview</h2>
+            <h2>AI Token Market Benefits</h2>
             <div class="tabs">
-                <button class="active" onclick="filterTable('all', this)">All</button>
-                <button onclick="filterTable('fiat', this)">Fiat</button>
-                <button onclick="filterTable('crypto', this)">Crypto</button>
-                <button onclick="filterTable('metal', this)">Metals</button>
+                <button class="active">AI Models</button>
+                <button onclick="window.location.href='market.html'">All Assets</button>
             </div>
         </div>
 
         <table class="market-table" id="marketTable">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Pair Name</th>
-                    <th>Price (Q)</th>
-                    <th>24h Change</th>
-                    <th>Volume</th>
-                    <th class="sparkline-cell">Last 7 Days</th>
+                    <th>Model</th>
+                    <th>Provider</th>
+                    <th>Best Price ($/1M)</th>
+                    <th>Avg Speed</th>
+                    <th>VFM Score</th>
+                    <th>Exclusive Benefit</th>
                 </tr>
             </thead>
             <tbody id="marketBody"></tbody>
@@ -766,17 +824,47 @@
     <script>
         // ===== DATA: AI Token Pricing (per 1M tokens in USD) =====
         const AI_PRICING = {
-            GPT4O: { name: 'GPT-4o', input: 2.50, output: 10.00, icon: '🤖', color: '#10A37F' },
-            GEMINI: { name: 'Gemini 2.5', input: 1.25, output: 10.00, icon: '♊', color: '#4285F4' },
-            DEEPSEEK: { name: 'DeepSeek-V3', input: 0.27, output: 1.10, icon: '🧠', color: '#6366F1' },
-            CLAUDE: { name: 'Claude 3.5', input: 3.00, output: 15.00, icon: '🏺', color: '#D97706' },
-            Q: { name: 'Unit Q', input: 1.00, output: 1.00, icon: '🪙', color: '#D4AF37' }
+            GPT4O: { name: 'GPT-4o', input: 2.50, output: 10.00, icon: '🤖', color: '#10A37F', benefit: 'Smartest & Reliable' },
+            GEMINI: { name: 'Gemini 2.5', input: 1.25, output: 10.00, icon: '♊', color: '#4285F4', benefit: 'Large Google Ecosystem' },
+            DEEPSEEK: { name: 'DeepSeek-V3', input: 0.27, output: 1.10, icon: '🧠', color: '#6366F1', benefit: 'Most Cost-Efficient (90% Save)' },
+            CLAUDE: { name: 'Claude 3.5', input: 3.00, output: 15.00, icon: '🏺', color: '#D97706', benefit: 'Creative & Precise Writing' },
+            Q: { name: 'Unit Q', input: 1.00, output: 1.00, icon: '🪙', color: '#D4AF37', benefit: 'Stable Internal Index' }
         };
 
+        const AI_BENEFITS_DATA = [
+            {
+                id: 'GPT4O', model: 'GPT-4o', provider: 'OpenRouter', price: 4.85,
+                savings: '15%', speed: '85 t/s', vfm: '9.2/10',
+                benefit: 'Best deal vs Direct. Highest intelligence.',
+                buyUrl: 'https://openrouter.ai/models/openai/gpt-4o'
+            },
+            {
+                id: 'GEMINI', model: 'Gemini 1.5 Pro', provider: 'Google Cloud', price: 0.35,
+                savings: 'Best Price', speed: '120 t/s', vfm: '9.8/10',
+                benefit: 'Unbeatable for massive context (2M+).',
+                buyUrl: 'https://cloud.google.com/vertex-ai'
+            },
+            {
+                id: 'DEEPSEEK', model: 'DeepSeek-V3', provider: 'Together AI', price: 0.14,
+                savings: '90% Off', speed: '95 t/s', vfm: '10/10',
+                benefit: 'Lowest cost on market. Coding Expert.',
+                buyUrl: 'https://www.together.ai/models/deepseek-v3'
+            },
+            {
+                id: 'CLAUDE', model: 'Claude 3.5 Sonnet', provider: 'Anthropic', price: 3.00,
+                savings: 'Standard', speed: '72 t/s', vfm: '8.9/10',
+                benefit: 'Premium reasoning for creative tasks.',
+                buyUrl: 'https://www.anthropic.com/claude'
+            }
+        ];
+
         const MARKET_PAIRS = [
-            { id: 'EUR', name: 'EUR / USD', symbol: '🇪🇺', type: 'fiat', binance: 'EURUSDT', fallback: 1.08 },
-            { id: 'GBP', name: 'GBP / USD', symbol: '🇬🇧', type: 'fiat', binance: 'GBPUSDT', fallback: 1.27 },
-            { id: 'XAU', name: 'GOLD / USD', symbol: '🥇', type: 'metal', binance: null, fallback: 2650 }
+            { id: 'BTC', name: 'Bitcoin', symbol: '₿', type: 'crypto', binance: 'BTCUSDT', fallback: 96000 },
+            { id: 'ETH', name: 'Ethereum', symbol: 'Ξ', type: 'crypto', binance: 'ETHUSDT', fallback: 3800 },
+            { id: 'XAU', name: 'GOLD', symbol: '🥇', type: 'metal', binance: 'PAXGUSDT', fallback: 2650 },
+            { id: 'EUR', name: 'Euro', symbol: '🇪🇺', type: 'fiat', binance: 'EURUSDT', fallback: 1.08 },
+            { id: 'GBP', name: 'Pound', symbol: '🇬🇧', type: 'fiat', binance: 'GBPUSDT', fallback: 1.27 },
+            { id: 'USD', name: 'US Dollar', symbol: '🇺🇸', type: 'fiat', binance: null, fallback: 1.0 }
         ];
 
         let priceCache = {};
@@ -827,56 +915,38 @@
             convert();
         }
 
-        // ===== RENDER MARKET TABLE =====
-        function renderMarketTable(filter = 'all') {
+        // ===== RENDER BENEFIT TABLE =====
+        function renderMarketTable() {
             const tbody = document.getElementById('marketBody');
-            const filtered = filter === 'all' ? MARKET_PAIRS : MARKET_PAIRS.filter(p => p.type === filter);
 
-            tbody.innerHTML = filtered.map((pair, idx) => {
-                const data = priceCache[pair.id] || { price: pair.fallback, change: 0, volume: 0 };
-                const qPrice = (data.price * 1.0).toFixed(data.price > 1000 ? 2 : 6);
-                const chg = parseFloat(data.change);
-                const chgClass = chg >= 0 ? 'change-up' : 'change-down';
-                const chgSign = chg >= 0 ? '+' : '';
-                const vol = data.volume > 1e9 ? (data.volume / 1e9).toFixed(1) + 'B' :
-                    data.volume > 1e6 ? (data.volume / 1e6).toFixed(1) + 'M' :
-                        data.volume.toFixed(0);
+            tbody.innerHTML = AI_BENEFITS_DATA.map((item) => {
+                const config = AI_PRICING[item.id] || AI_PRICING.GPT4O;
 
                 return `
-                    <tr data-type="${pair.type}" onclick="window.location.href='market.html?pair=${pair.id}'">
-                        <td style="color:var(--text-sub)">${idx + 1}</td>
+                    <tr>
                         <td>
                             <div class="pair-cell">
-                                <div class="pair-icon" style="background:${AI_PRICING.Q.color}">${pair.symbol}</div>
+                                <div class="pair-icon" style="background:${config.color}">${config.icon}</div>
                                 <div>
-                                    <div class="pair-name-main">${pair.id} / Q</div>
-                                    <div class="pair-name-sub">${pair.name}</div>
+                                    <div class="pair-name-main">${item.model}</div>
+                                    <div class="pair-name-sub">v1.2 Stable</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="price-cell">${qPrice}</td>
-                        <td><span class="change-cell ${chgClass}">${chgSign}${chg}%</span></td>
-                        <td style="color:var(--text-sub)">${vol}</td>
-                        <td class="sparkline-cell"><div id="spark-${pair.id}"></div></td>
+                        <td class="provider-cell">${item.provider}</td>
+                        <td class="price-cell">
+                            $${item.price.toFixed(2)}
+                            <span class="saving-tag">-${item.savings}</span>
+                        </td>
+                        <td class="speed-val">${item.speed}</td>
+                        <td><span class="vfm-badge">${item.vfm}</span></td>
+                        <td>
+                            <div style="font-size: 11px; color: var(--text-sub); margin-bottom: 4px;">${item.benefit}</div>
+                            <a href="${item.buyUrl}" target="_blank" class="buy-btn" onclick="event.stopPropagation()">Buy @ ${item.provider}</a>
+                        </td>
                     </tr>
                 `;
             }).join('');
-
-            // Render mini sparklines
-            filtered.forEach(pair => {
-                const el = document.getElementById(`spark-${pair.id}`);
-                if (el) {
-                    const sparkData = Array.from({ length: 7 }, () => Math.random() * 20 + 10);
-                    const chg = parseFloat(priceCache[pair.id]?.change || 0);
-                    new ApexCharts(el, {
-                        series: [{ data: sparkData }],
-                        chart: { type: 'line', height: 35, width: 100, sparkline: { enabled: true } },
-                        stroke: { width: 2, curve: 'smooth' },
-                        colors: [chg >= 0 ? '#0ECB81' : '#F6465D'],
-                        tooltip: { enabled: false }
-                    }).render();
-                }
-            });
         }
 
         function filterTable(type, btn) {
@@ -919,8 +989,10 @@
                 ? (tokens / 1e6).toFixed(2) + 'M tokens'
                 : Math.round(tokens).toLocaleString() + ' tokens';
 
+            // Highlight Benefit
+            const benefitHTML = `<span style="color:${toModel.color}; font-weight:bold;">${toModel.benefit}</span>`;
             document.getElementById('converterRate').innerHTML =
-                `1 ${from} ≈ ${(fromUSD / avgTokenPrice * 1e6).toLocaleString(undefined, { maximumFractionDigits: 0 })} ${toModel.name} tokens`;
+                `1 ${from} ≈ ${(fromUSD / avgTokenPrice * 1e6).toLocaleString(undefined, { maximumFractionDigits: 0 })} ${toModel.name} tokens <br> Benefit: ${benefitHTML}`;
         }
 
         function swapCurrencies() {

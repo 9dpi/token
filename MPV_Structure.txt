@@ -7,35 +7,32 @@ Tài liệu này tổng hợp toàn bộ thiết kế hệ thống và lộ trì
 ## 🏗️ PHẦN 1: KIẾN TRÚC TỔNG THỂ (GLOBAL ARCHITECTURE)
 
 ### 1. Tầm nhìn Sản phẩm
-Hệ thống không chỉ là một ứng dụng chat mà là một **AI Token Exchange & Index Hub**, cho phép theo dõi tỷ giá thời gian thực giữa tiền tệ pháp định (Fiat), kim loại quý (Gold), tiền mã hóa (Crypto) và các loại **AI Tokens** (OpenAI, Anthropic, Google, DeepSeek).
+Hệ thống không chỉ là một ứng dụng chat mà là một **AI Token Exchange & Price Comparison Hub**. Nhiệm vụ trọng tâm là giúp người dùng tìm được mô hình AI rẻ nhất và hiệu quả nhất cho nhu cầu của họ thông qua cơ chế quét giá tự động.
 
 ### 2. Sơ đồ Kiến trúc (Updated)
 ```mermaid
 graph TD
     subgraph ClientLayer ["Client Layer (Responsive & Interactive)"]
-        A[Landing Page - AI Token Index]
-        B[Market Terminal - Trading View]
-        C[AI Models Guide - Benchmarking]
-        D[Mobile Terminal - Next.js Chat]
+        A[Landing Page - Price Comparison]
+        B[Market Terminal - Rate Monitoring]
+        D[Mobile App - Cost-Optimized Chat]
     end
 
     subgraph LogicLayer ["Core Logic Engine"]
         E[Index Engine - Real-time Rates]
-        F[Currency Adapter - Binance/CEX API]
-        G[Token Converter - Multi-Model pricing]
+        F[Price Scanner - Daily Provider Crawling]
+        G[Token Converter - Efficiency Highlighting]
     end
 
     subgraph DataLayer ["Data & Connectivity"]
-        H[Google Apps Script - API Gateway]
-        I[Google Sheets - Balance & User Data]
-        J[Quantix AI Core - Backend Integration]
+        H[GitHub Actions - Daily Sync]
+        I[Google Sheets - Master Pricing Table]
     end
 
-    A & B & C & D --> E
+    A & B & D --> E
     E --> F & G
-    E --- H
+    F --- H
     H --- I
-    A & B & C --- J
 ```
 
 ---
