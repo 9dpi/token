@@ -18,35 +18,38 @@ async function scanPrices() {
         const config = {
             GPT4O: {
                 ids: ['gpt-4o', 'openai/gpt-4o'],
-                name: 'GPT-4o',
-                logo: 'logos/chatgpt.svg',
-                color: '#10A37F',
-                benefit: 'Smartest & Reliable',
+                name: 'GPT-4o', logo: 'logos/chatgpt.svg', color: '#10A37F', benefit: 'Smartest & Reliable',
                 buyUrl: 'https://openrouter.ai/models/openai/gpt-4o'
             },
             CLAUDE: {
                 ids: ['claude-3-5-sonnet-20240620', 'claude-3-5-sonnet', 'anthropic/claude-3-5-sonnet'],
-                name: 'Claude 3.5',
-                logo: 'logos/claude.svg',
-                color: '#D97706',
-                benefit: 'Creative & Precise Writing',
+                name: 'Claude 3.5', logo: 'logos/claude.svg', color: '#D97706', benefit: 'Creative & Precise Writing',
                 buyUrl: 'https://www.anthropic.com/claude'
             },
             GEMINI: {
                 ids: ['gemini/gemini-1.5-pro', 'google/gemini-1.5-pro', 'gemini-1.5-pro'],
-                name: 'Gemini 2.5 Pro',
-                logo: 'logos/gemini.svg',
-                color: '#4285F4',
-                benefit: 'Massive Context Window',
+                name: 'Gemini 2 Pro', logo: 'logos/gemini.svg', color: '#4285F4', benefit: 'Massive Context Window',
                 buyUrl: 'https://cloud.google.com/vertex-ai'
             },
             DEEPSEEK: {
                 ids: ['deepseek/deepseek-chat', 'deepseek-v3', 'deepseek-chat'],
-                name: 'DeepSeek-V3',
-                logo: 'logos/deepseek.svg',
-                color: '#6366F1',
-                benefit: '90% Cost Savings',
+                name: 'DeepSeek-V3', logo: 'logos/deepseek.svg', color: '#6366F1', benefit: '90% Cost Savings',
                 buyUrl: 'https://www.together.ai/models/deepseek-v3'
+            },
+            LLAMA: {
+                ids: ['meta-llama/llama-3.1-405b-instruct', 'azure/llama-3.1-405b', 'llama-3.1-405b'],
+                name: 'Llama 3.1 405B', logo: 'logos/llama.svg', color: '#0668E1', benefit: 'Open-Source Powerhouse',
+                buyUrl: 'https://azure.microsoft.com/pricing'
+            },
+            MISTRAL: {
+                ids: ['mistral/mistral-large-latest', 'mistral/mistral-large', 'azure/mistral-large'],
+                name: 'Mistral Large', logo: 'logos/mistral.svg', color: '#FD5339', benefit: 'European Efficiency',
+                buyUrl: 'https://mistral.ai/en/technology#pricing'
+            },
+            GROQ: {
+                ids: ['groq/llama-3-70b-8192', 'groq/llama-3-8b'],
+                name: 'Llama 3 (Groq)', logo: 'logos/groq.svg', color: '#F55036', benefit: 'Ultra-Fast LPU Speed',
+                buyUrl: 'https://groq.com/pricing'
             }
         };
 
