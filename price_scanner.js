@@ -7,10 +7,20 @@ async function scanPrices() {
         const response = await fetch('https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json');
         const data = await response.json();
 
-        // Robust mapping with fallbacks
+        // Case-insensitive mapping with partial match support
         const findPrice = (ids) => {
+            const allKeys = Object.keys(data);
             for (const id of ids) {
+                // Try exact match first
                 if (data[id]) return data[id];
+
+                // Try case-insensitive exact match
+                const ciMatch = allKeys.find(k => k.toLowerCase() === id.toLowerCase());
+                if (ciMatch) return data[ciMatch];
+
+                // Try partial match
+                const partialMatch = allKeys.find(k => k.toLowerCase().includes(id.toLowerCase()));
+                if (partialMatch) return data[partialMatch];
             }
             return null;
         };
@@ -47,7 +57,7 @@ async function scanPrices() {
                 buyUrl: 'https://mistral.ai/en/technology#pricing'
             },
             GROQ: {
-                ids: ['groq/llama-3-70b-8192', 'groq/llama-3-8b'],
+                ids: ['groq/llama3-70b-8192', 'groq/llama3-8b-8192'],
                 name: 'Llama 3 (Groq)', logo: 'logos/groq.svg', color: '#F55036', benefit: 'Ultra-Fast LPU Speed',
                 buyUrl: 'https://groq.com/pricing'
             }
