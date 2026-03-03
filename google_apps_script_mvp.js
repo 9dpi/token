@@ -3,19 +3,23 @@
  * To be deployed as a Web App (Access: Anyone with link)
  */
 
-const SHEET_NAME = 'Users'; // Tên của Sheet chứa dữ liệu
+const SHEET_NAME = 'Users';
+const API_KEY = 'YOUR_SECRET_TOKEN_HERE'; // Đặt Key bảo mật của bạn ở đây
 
-/**
- * Lấy số dư Q của người dùng qua Email
- * URL: [WEBAPP_URL]?email=user@gmail.com
- */
+function checkAuth(e) {
+  const key = e.parameter.key || e.parameter.apiKey;
+  return key === API_KEY;
+}
+
 function doGet(e) {
+  if (!checkAuth(e)) return createResponse({ success: false, error: 'Unauthorized' });
+
   const email = e.parameter.email;
   if (!email) return createResponse({ success: false, error: 'Email is required' });
 
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
   const data = sheet.getDataRange().getValues();
-  
+
   // Tim email trong cột A (Index 0)
   for (let i = 1; i < data.length; i++) {
     if (data[i][0] === email) {
@@ -36,6 +40,8 @@ function doGet(e) {
  * Body: { "email": "user@gmail.com", "amount": 0.05 }
  */
 function doPost(e) {
+  if (!checkAuth(e)) return createResponse({ success: false, error: 'Unauthorized' });
+
   try {
     const params = JSON.parse(e.postData.contents);
     const email = params.email;
@@ -47,16 +53,16 @@ function doPost(e) {
 
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
     const data = sheet.getDataRange().getValues();
-    
+
     for (let i = 1; i < data.length; i++) {
       if (data[i][0] === email) {
         const currentBalance = parseFloat(data[i][1]);
         const newBalance = currentBalance - amountToSubtract;
-        
+
         // Cập nhật giá trị vào Sheet
         sheet.getRange(i + 1, 2).setValue(newBalance); // Cột B
         sheet.getRange(i + 1, 3).setValue(new Date()); // Cột C (Timestamp)
-        
+
         return createResponse({
           success: true,
           new_balance: newBalance
