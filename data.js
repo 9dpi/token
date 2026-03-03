@@ -1,6 +1,6 @@
 // ===== SYSTEM DATA: AI TOKEN INDEX =====
 // This file is automatically updated by price_scanner.js
-// Last Scan: 2026-03-03 11:16 AM
+// Last Scan: 2026-03-03 11:20 AM
 
 const AI_PRICING = {
     "Q": {
@@ -55,7 +55,7 @@ const AI_BENEFITS_DATA = [
         "speed": "Dynamic",
         "vfm": "9.8/10",
         "benefit": "Smartest & Reliable",
-        "buyUrl": "#"
+        "buyUrl": "https://openrouter.ai/models/openai/gpt-4o"
     },
     {
         "id": "CLAUDE",
@@ -66,7 +66,7 @@ const AI_BENEFITS_DATA = [
         "speed": "Dynamic",
         "vfm": "9.7/10",
         "benefit": "Creative & Precise Writing",
-        "buyUrl": "#"
+        "buyUrl": "https://www.anthropic.com/claude"
     },
     {
         "id": "GEMINI",
@@ -77,7 +77,7 @@ const AI_BENEFITS_DATA = [
         "speed": "Dynamic",
         "vfm": "9.7/10",
         "benefit": "Massive Context Window",
-        "buyUrl": "#"
+        "buyUrl": "https://cloud.google.com/vertex-ai"
     },
     {
         "id": "DEEPSEEK",
@@ -88,7 +88,7 @@ const AI_BENEFITS_DATA = [
         "speed": "Dynamic",
         "vfm": "10.0/10",
         "benefit": "90% Cost Savings",
-        "buyUrl": "#"
+        "buyUrl": "https://www.together.ai/models/deepseek-v3"
     }
 ];
 
@@ -101,4 +101,4 @@ const MARKET_PAIRS = [
     { id: 'USD', name: 'US Dollar', symbol: '🇺🇸', type: 'fiat', binance: null, fallback: 1.0 }
 ];
 
-const LAST_UPDATE = "2026-03-03 11:16 AM";
+const LAST_UPDATE = "2026-03-03 11:20 AM";

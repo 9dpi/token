@@ -21,28 +21,32 @@ async function scanPrices() {
                 name: 'GPT-4o',
                 logo: 'logos/chatgpt.svg',
                 color: '#10A37F',
-                benefit: 'Smartest & Reliable'
+                benefit: 'Smartest & Reliable',
+                buyUrl: 'https://openrouter.ai/models/openai/gpt-4o'
             },
             CLAUDE: {
                 ids: ['claude-3-5-sonnet-20240620', 'claude-3-5-sonnet', 'anthropic/claude-3-5-sonnet'],
                 name: 'Claude 3.5',
                 logo: 'logos/claude.svg',
                 color: '#D97706',
-                benefit: 'Creative & Precise Writing'
+                benefit: 'Creative & Precise Writing',
+                buyUrl: 'https://www.anthropic.com/claude'
             },
             GEMINI: {
                 ids: ['gemini/gemini-1.5-pro', 'google/gemini-1.5-pro', 'gemini-1.5-pro'],
                 name: 'Gemini 2.5 Pro',
                 logo: 'logos/gemini.svg',
                 color: '#4285F4',
-                benefit: 'Massive Context Window'
+                benefit: 'Massive Context Window',
+                buyUrl: 'https://cloud.google.com/vertex-ai'
             },
             DEEPSEEK: {
                 ids: ['deepseek/deepseek-chat', 'deepseek-v3', 'deepseek-chat'],
                 name: 'DeepSeek-V3',
                 logo: 'logos/deepseek.svg',
                 color: '#6366F1',
-                benefit: '90% Cost Savings'
+                benefit: '90% Cost Savings',
+                buyUrl: 'https://www.together.ai/models/deepseek-v3'
             }
         };
 
@@ -76,7 +80,7 @@ async function scanPrices() {
                     speed: 'Dynamic',
                     vfm: (10 - (inputPrice / 10)).toFixed(1) + '/10',
                     benefit: meta.benefit,
-                    buyUrl: '#'
+                    buyUrl: meta.buyUrl
                 });
             } else {
                 console.warn(`⚠️ Model ${internalId} not found in source.`);
