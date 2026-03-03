@@ -556,8 +556,18 @@
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 12px;
+            font-size: 14px;
             color: white;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+        }
+
+        .pair-icon img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
         }
 
         .pair-name-main {
@@ -1122,12 +1132,15 @@
 
             tbody.innerHTML = AI_BENEFITS_DATA.map((item) => {
                 const config = AI_PRICING[item.id] || AI_PRICING.GPT4O;
+                const iconContent = config.icon.startsWith('http')
+                    ? `<img src="${config.icon}" alt="${config.name}">`
+                    : config.icon;
 
                 return `
                     <tr style="cursor:pointer" onclick="showBenefitDetail('${item.id}')">
                         <td data-label="Model">
                             <div class="pair-cell">
-                                <div class="pair-icon" style="background:${config.color}">${config.icon}</div>
+                                <div class="pair-icon" style="border-color:${config.color}55">${iconContent}</div>
                                 <div>
                                     <div class="pair-name-main">${item.model}</div>
                                     <div class="pair-name-sub">v1.2 Stable</div>
@@ -1155,9 +1168,13 @@
             const config = AI_PRICING[id];
             if (!item || !config) return;
 
+            const iconContent = config.icon.startsWith('http')
+                ? `<img src="${config.icon}" alt="${config.name}" style="width:24px; height:24px;">`
+                : config.icon;
+
             const content = `
                 <div class="modal-header">
-                    <div class="pair-icon" style="background:${config.color}; width:48px; height:48px; font-size:20px;">${config.icon}</div>
+                    <div class="pair-icon" style="border-color:${config.color}55; width:48px; height:48px; font-size:20px;">${iconContent}</div>
                     <div class="modal-title">${item.model}</div>
                 </div>
                 <div class="modal-body">

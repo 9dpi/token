@@ -1,6 +1,6 @@
 // ===== SYSTEM DATA: AI TOKEN INDEX =====
 // This file is automatically updated by price_scanner.js
-// Last Scan: 2026-03-03 11:04 AM
+// Last Scan: 2026-03-03 11:06 AM
 
 const AI_PRICING = {
     "Q": {
@@ -15,7 +15,7 @@ const AI_PRICING = {
         "name": "GPT-4o",
         "input": 2.5,
         "output": 10,
-        "icon": "🤖",
+        "icon": "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
         "color": "#10A37F",
         "benefit": "Smartest & Reliable"
     },
@@ -23,7 +23,7 @@ const AI_PRICING = {
         "name": "Claude 3.5",
         "input": 3,
         "output": 15,
-        "icon": "🏺",
+        "icon": "https://cdn.worldvectorlogo.com/logos/anthropic-icon.svg",
         "color": "#D97706",
         "benefit": "Creative & Precise Writing"
     },
@@ -31,7 +31,7 @@ const AI_PRICING = {
         "name": "Gemini 2.5 Pro",
         "input": 3.5,
         "output": 10.5,
-        "icon": "♊",
+        "icon": "https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d473530c2731b4cc6b7d5.svg",
         "color": "#4285F4",
         "benefit": "Massive Context Window"
     },
@@ -39,7 +39,7 @@ const AI_PRICING = {
         "name": "DeepSeek-V3",
         "input": 0.28,
         "output": 0.42,
-        "icon": "🧠",
+        "icon": "https://chat.deepseek.com/favicon.svg",
         "color": "#6366F1",
         "benefit": "90% Cost Savings"
     }
@@ -101,4 +101,4 @@ const MARKET_PAIRS = [
     { id: 'USD', name: 'US Dollar', symbol: '🇺🇸', type: 'fiat', binance: null, fallback: 1.0 }
 ];
 
-const LAST_UPDATE = "2026-03-03 11:04 AM";
+const LAST_UPDATE = "2026-03-03 11:06 AM";

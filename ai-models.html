@@ -8,6 +8,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
         rel="stylesheet">
+    <script src="data.js"></script>
     <style>
         :root {
             --gold: #D4AF37;
@@ -203,12 +204,20 @@
         .model-icon {
             width: 50px;
             height: 50px;
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .model-icon img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
         }
 
         .model-info h2 {
@@ -345,160 +354,8 @@
                 supported by the AI Token Index ecosystem.</p>
         </section>
 
-        <div class="model-grid">
-            <!-- GPT-4o -->
-            <div class="model-card">
-                <div class="model-header">
-                    <div class="model-icon">🤖</div>
-                    <div class="model-info">
-                        <h2>GPT-4o</h2>
-                        <span>OpenAI • Flagship Model</span>
-                    </div>
-                </div>
-                <p style="font-size: 14px; color: var(--text-sub); line-height: 1.6;">The most powerful and versatile
-                    model today, suitable for all tasks from programming to content creation.</p>
-                <table class="price-table">
-                    <thead>
-                        <tr>
-                            <th>TOKEN TYPE</th>
-                            <th>PRICE PER 1M TOKENS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Input Tokens</td>
-                            <td class="price-gold">$2.50</td>
-                        </tr>
-                        <tr>
-                            <td>Output Tokens</td>
-                            <td class="price-gold">$10.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="benefit-tag">⚡ Best for General Intelligence & Apps</div>
-                <ul class="features">
-                    <li>Multi-modal support (Text, Image)</li>
-                    <li>Extremely fast response speed</li>
-                    <li>High-level logical reasoning capabilities</li>
-                </ul>
-                <a href="https://openrouter.ai/models/openai/gpt-4o" target="_blank" class="buy-now-btn">Get Started
-                    Now</a>
-            </div>
-
-            <!-- Claude 3.5 -->
-            <div class="model-card">
-                <div class="model-header">
-                    <div class="model-icon">🟤</div>
-                    <div class="model-info">
-                        <h2>Claude 3.5 Sonnet</h2>
-                        <span>Anthropic • Advanced Reasoning</span>
-                    </div>
-                </div>
-                <p style="font-size: 14px; color: var(--text-sub); line-height: 1.6;">Famous for natural writing and
-                    rigorous logical thinking, highly regarded by technical experts.</p>
-                <table class="price-table">
-                    <thead>
-                        <tr>
-                            <th>TOKEN TYPE</th>
-                            <th>PRICE PER 1M TOKENS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Input Tokens</td>
-                            <td class="price-gold">$3.00</td>
-                        </tr>
-                        <tr>
-                            <td>Output Tokens</td>
-                            <td class="price-gold">$15.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="benefit-tag">🖋️ Best for Creative Writing & Coding</div>
-                <ul class="features">
-                    <li>Context Window up to 200K tokens</li>
-                    <li>Superior coding and debugging</li>
-                    <li>Most human-like communication style</li>
-                </ul>
-                <a href="https://www.anthropic.com/claude" target="_blank" class="buy-now-btn">Access Claude Now</a>
-            </div>
-
-            <!-- DeepSeek-V3 -->
-            <div class="model-card">
-                <div class="model-header">
-                    <div class="model-icon">🔍</div>
-                    <div class="model-info">
-                        <h2>DeepSeek-V3</h2>
-                        <span>DeepSeek • Efficiency King</span>
-                    </div>
-                </div>
-                <p style="font-size: 14px; color: var(--text-sub); line-height: 1.6;">The world's most cost-effective
-                    solution with performance nearing top American models.</p>
-                <table class="price-table">
-                    <thead>
-                        <tr>
-                            <th>TOKEN TYPE</th>
-                            <th>PRICE PER 1M TOKENS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Input Tokens</td>
-                            <td class="price-gold">$0.27</td>
-                        </tr>
-                        <tr>
-                            <td>Output Tokens</td>
-                            <td class="price-gold">$1.10</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="benefit-tag">💰 Best for Cost Optimization (90% Save)</div>
-                <ul class="features">
-                    <li>10-20x cheaper than competitors</li>
-                    <li>Impressive math and coding performance</li>
-                    <li>Optimized for bulk processing tasks</li>
-                </ul>
-                <a href="https://www.together.ai/models/deepseek-v3" target="_blank" class="buy-now-btn">Save 90%
-                    Now</a>
-            </div>
-
-            <!-- Gemini 2.5 -->
-            <div class="model-card">
-                <div class="model-header">
-                    <div class="model-icon">♊</div>
-                    <div class="model-info">
-                        <h2>Gemini 2.5 Flash</h2>
-                        <span>Google • Speed Optimizer</span>
-                    </div>
-                </div>
-                <p style="font-size: 14px; color: var(--text-sub); line-height: 1.6;">Optimized for speed and capable of
-                    handling massive context within the Google ecosystem.</p>
-                <table class="price-table">
-                    <thead>
-                        <tr>
-                            <th>TOKEN TYPE</th>
-                            <th>PRICE PER 1M TOKENS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Input Tokens</td>
-                            <td class="price-gold">$1.25</td>
-                        </tr>
-                        <tr>
-                            <td>Output Tokens</td>
-                            <td class="price-gold">$10.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="benefit-tag">🚀 Best for Speed & Large Context</div>
-                <ul class="features">
-                    <li>Deep integration with Google search data</li>
-                    <li>1M+ token context window capability</li>
-                    <li>Lowest latency in its class</li>
-                </ul>
-                <a href="https://cloud.google.com/vertex-ai" target="_blank" class="buy-now-btn">Use Gemini Now</a>
-            </div>
+        <div class="model-grid" id="modelGrid">
+            <!-- Dynamically Rendered -->
         </div>
     </div>
 
@@ -509,6 +366,58 @@
             function toggleMenu() {
                 document.getElementById('mainNav').classList.toggle('active');
             }
+
+            function renderModels() {
+                const grid = document.getElementById('modelGrid');
+                grid.innerHTML = AI_BENEFITS_DATA.map(item => {
+                    const config = AI_PRICING[item.id] || AI_PRICING.GPT4O;
+                    const iconContent = config.icon.startsWith('http')
+                        ? `<img src="${config.icon}" alt="${config.name}">`
+                        : config.icon;
+
+                    return `
+                        <div class="model-card">
+                            <div class="model-header">
+                                <div class="model-icon" style="border-color:${config.color}33">${iconContent}</div>
+                                <div class="model-info">
+                                    <h2>${item.model}</h2>
+                                    <span>${item.provider.toUpperCase()} • v1.2 Release</span>
+                                </div>
+                            </div>
+                            <p style="font-size: 14px; color: var(--text-sub); line-height: 1.6;">
+                                ${item.benefit} Optimized for professional use cases and integration.
+                            </p>
+                            <table class="price-table">
+                                <thead>
+                                    <tr>
+                                        <th>TOKEN TYPE</th>
+                                        <th>PRICE PER 100K TOKENS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Input Tokens</td>
+                                        <td class="price-gold">$${(config.input / 10).toFixed(3)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Output Tokens</td>
+                                        <td class="price-gold">$${(config.output / 10).toFixed(3)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="benefit-tag">🛡️ Licensed for Enterprise Use</div>
+                            <ul class="features">
+                                <li>Real-time automated pricing updates</li>
+                                <li>High-priority API endpoint access</li>
+                                <li>VFM Performance Score: ${item.vfm}</li>
+                            </ul>
+                            <a href="${item.buyUrl}" target="_blank" class="buy-now-btn">Access ${config.name} Now</a>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            document.addEventListener('DOMContentLoaded', renderModels);
         </script>
 </body>
 

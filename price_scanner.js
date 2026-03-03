@@ -16,10 +16,34 @@ async function scanPrices() {
         };
 
         const config = {
-            GPT4O: { ids: ['gpt-4o', 'openai/gpt-4o'], name: 'GPT-4o', icon: '🤖', color: '#10A37F', benefit: 'Smartest & Reliable' },
-            CLAUDE: { ids: ['claude-3-5-sonnet-20240620', 'claude-3-5-sonnet', 'anthropic/claude-3-5-sonnet'], name: 'Claude 3.5', icon: '🏺', color: '#D97706', benefit: 'Creative & Precise Writing' },
-            GEMINI: { ids: ['gemini/gemini-1.5-pro', 'google/gemini-1.5-pro', 'gemini-1.5-pro'], name: 'Gemini 2.5 Pro', icon: '♊', color: '#4285F4', benefit: 'Massive Context Window' },
-            DEEPSEEK: { ids: ['deepseek/deepseek-chat', 'deepseek-v3', 'deepseek-chat'], name: 'DeepSeek-V3', icon: '🧠', color: '#6366F1', benefit: '90% Cost Savings' }
+            GPT4O: {
+                ids: ['gpt-4o', 'openai/gpt-4o'],
+                name: 'GPT-4o',
+                logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg',
+                color: '#10A37F',
+                benefit: 'Smartest & Reliable'
+            },
+            CLAUDE: {
+                ids: ['claude-3-5-sonnet-20240620', 'claude-3-5-sonnet', 'anthropic/claude-3-5-sonnet'],
+                name: 'Claude 3.5',
+                logo: 'https://cdn.worldvectorlogo.com/logos/anthropic-icon.svg',
+                color: '#D97706',
+                benefit: 'Creative & Precise Writing'
+            },
+            GEMINI: {
+                ids: ['gemini/gemini-1.5-pro', 'google/gemini-1.5-pro', 'gemini-1.5-pro'],
+                name: 'Gemini 2.5 Pro',
+                logo: 'https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d473530c2731b4cc6b7d5.svg',
+                color: '#4285F4',
+                benefit: 'Massive Context Window'
+            },
+            DEEPSEEK: {
+                ids: ['deepseek/deepseek-chat', 'deepseek-v3', 'deepseek-chat'],
+                name: 'DeepSeek-V3',
+                logo: 'https://chat.deepseek.com/favicon.svg',
+                color: '#6366F1',
+                benefit: '90% Cost Savings'
+            }
         };
 
         const updatedPricing = {
@@ -38,7 +62,7 @@ async function scanPrices() {
                     name: meta.name,
                     input: inputPrice || 0,
                     output: outputPrice || 0,
-                    icon: meta.icon,
+                    icon: meta.logo, // Logo URL
                     color: meta.color,
                     benefit: meta.benefit
                 };
