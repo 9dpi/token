@@ -1,8 +1,10 @@
-🚀 AI TOKEN INDEX - MVP STRUCTURE v1.4.0
+🚀 AI TOKEN INDEX - MVP STRUCTURE v1.4.1
 ========================================
 
-1. CORE SYSTEM (AUTOMATION)
----------------------------
+1. CORE SYSTEM (AUTOMATION & STABILITY)
+---------------------------------------
+- [x] Hardened Scanner: Resilient ID matching in price_scanner.js.
+- [x] Security Hardening: CSP headers, .gitignore, and credential cleanup.
 - [x] data.js: Centralized state for AI pricing, benefits, and market pairs.
 - [x] price_scanner.js: Node.js engine to fetch live AI costs from LiteLLM.
 - [x] daily_scan.yml: GitHub Actions workflow for daily 00:00 UTC updates.
