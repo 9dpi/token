@@ -1132,7 +1132,8 @@
 
             tbody.innerHTML = AI_BENEFITS_DATA.map((item) => {
                 const config = AI_PRICING[item.id] || AI_PRICING.GPT4O;
-                const iconContent = config.icon.startsWith('http')
+                const isImage = config.icon.startsWith('http') || config.icon.startsWith('logos/');
+                const iconContent = isImage
                     ? `<img src="${config.icon}" alt="${config.name}">`
                     : config.icon;
 
@@ -1168,7 +1169,8 @@
             const config = AI_PRICING[id];
             if (!item || !config) return;
 
-            const iconContent = config.icon.startsWith('http')
+            const isImage = config.icon.startsWith('http') || config.icon.startsWith('logos/');
+            const iconContent = isImage
                 ? `<img src="${config.icon}" alt="${config.name}" style="width:24px; height:24px;">`
                 : config.icon;
 

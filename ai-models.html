@@ -371,7 +371,8 @@
                 const grid = document.getElementById('modelGrid');
                 grid.innerHTML = AI_BENEFITS_DATA.map(item => {
                     const config = AI_PRICING[item.id] || AI_PRICING.GPT4O;
-                    const iconContent = config.icon.startsWith('http')
+                    const isImage = config.icon.startsWith('http') || config.icon.startsWith('logos/');
+                    const iconContent = isImage
                         ? `<img src="${config.icon}" alt="${config.name}">`
                         : config.icon;
 
