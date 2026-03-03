@@ -12,6 +12,12 @@ build/
 .env.test.local
 .env.production.local
 
+# ===== SECRETS & CREDENTIALS =====
+google_apps_script_mvp.js
+*_secret*
+*_credentials*
+secrets/
+
 # ===== OS FILES =====
 .DS_Store
 Thumbs.db
