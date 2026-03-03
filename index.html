@@ -932,7 +932,11 @@
 
         // ===== INIT =====
         fetchPrices();
-        setInterval(fetchPrices, 10000); // Refresh every 10s
+        setInterval(() => {
+            if (!document.hidden) {
+                fetchPrices();
+            }
+        }, 10000); // 10s polling, only if tab is visible
     </script>
 </body>
 
