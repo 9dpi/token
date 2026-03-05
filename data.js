@@ -68,7 +68,7 @@ const AI_BENEFITS_DATA = [
     "buyUrl": "https://mistral.ai/pricing"
   }
 ];
-const LAST_UPDATE = "3/5/2026, 9:24:21 AM";
+const LAST_UPDATE = "3/6/2026, 12:05:37 AM";
 
 const MARKET_PAIRS = [
     { id: 'BTC', name: 'Bitcoin', symbol: '₿', type: 'crypto', binance: 'BTCUSDT', fallback: 96000 },
