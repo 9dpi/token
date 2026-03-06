@@ -1,4 +1,4 @@
-🚀 AI TOKEN INDEX - MVP STRUCTURE v1.4.1
+🚀 AI TOKEN INDEX - MVP STRUCTURE v1.5.0
 ========================================
 
 1. CORE SYSTEM (AUTOMATION & STABILITY)
@@ -7,9 +7,11 @@
 - [x] Security Hardening: CSP headers, .gitignore, and credential cleanup.
 - [x] data.js: Centralized state for AI pricing, benefits, and market pairs.
 - [x] price_scanner.js: Node.js engine to fetch live AI costs from LiteLLM.
-- [x] daily_scan.yml: GitHub Actions workflow for daily 00:00 UTC updates.
-- [x] Google Apps Script: Hybrid sync between Google Sheets and GitHub.
+- [x] daily_scan.yml: GitHub Actions workflow for daily 00:00 UTC updates (Write permission enabled).
+- [x] Google Apps Script (Sync): Hybrid sync between Google Sheets and GitHub.
+- [x] Google Apps Script (Backup): Historical data logging of price fluctuations to a secondary Backup Sheet.
 - [x] Data Integrity: Preserved MARKET_PAIRS during cloud updates.
+- [x] Cloud-Native Host: Local services completely terminated. System runs natively on GH Pages & Action bots.
 
 2. FRONTEND (UI/UX)
 -------------------
@@ -37,7 +39,7 @@
 - [x] Sync Badge: Live pulsing status indicator for data freshness.
 
 ---
-Status: READY FOR PRODUCTION (v1.4.0)
-Last Update: 2026-03-03 11:50 AM
+Status: READY FOR PRODUCTION (v1.5.0 CLOUD-NATIVE)
+Last Update: 2026-03-06
 ---
 👑 Powered by Quantix AI Core
