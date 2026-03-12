@@ -16,14 +16,6 @@ const AI_PRICING = {
     "color": "#10A37F",
     "benefit": "Market Live Data"
   },
-  "GEMINI": {
-    "name": "Gemini 1.5 Pro",
-    "input": 1.25,
-    "output": 5,
-    "icon": "logos/gemini.svg",
-    "color": "#4285F4",
-    "benefit": "Market Live Data"
-  },
   "MISTRAL": {
     "name": "Mistral Large",
     "input": 0.5,
@@ -46,17 +38,6 @@ const AI_BENEFITS_DATA = [
     "buyUrl": "https://openai.com/api/pricing"
   },
   {
-    "id": "GEMINI",
-    "model": "Gemini 1.5 Pro",
-    "provider": "vertex_ai-language-models",
-    "price": 1.25,
-    "savings": "Market Rate",
-    "speed": "High",
-    "vfm": "9.5/10",
-    "benefit": "Official Pricing",
-    "buyUrl": "https://cloud.google.com/vertex-ai/pricing"
-  },
-  {
     "id": "MISTRAL",
     "model": "Mistral Large",
     "provider": "mistral",
@@ -68,7 +49,7 @@ const AI_BENEFITS_DATA = [
     "buyUrl": "https://mistral.ai/pricing"
   }
 ];
-const LAST_UPDATE = "3/12/2026, 12:05:34 AM";
+const LAST_UPDATE = "3/12/2026, 7:53:48 AM";
 
 const MARKET_PAIRS = [
     { id: 'BTC', name: 'Bitcoin', symbol: '₿', type: 'crypto', binance: 'BTCUSDT', fallback: 96000 },
