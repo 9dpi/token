@@ -12,6 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
         rel="stylesheet">
     <script src="data.js"></script>
+    <script src="nft_data_model.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <style>
@@ -928,10 +929,10 @@
         <div class="header-right">
             <nav class="main-nav" id="mainNav">
                 <a href="index.html" class="active">Home</a>
-                <a href="market.html">Market</a>
+                <a href="market.html">NFT Market</a>
                 <a href="ai-models.html">AI Models</a>
+                <a href="wallet.html" style="color: var(--gold);">Q Wallet</a>
                 <a href="https://9dpi.github.io/quantix-ai-core/index.html" target="_blank">Quantix AI</a>
-                <a href="https://www.linkedin.com/in/cuongvq/" target="_blank">Contact</a>
             </nav>
             <button class="hamburger" onclick="toggleMenu()">☰</button>
             <span class="badge">🟢 LIVE</span>
@@ -972,35 +973,22 @@
                     </select>
                 </div>
                 <div class="converter-rate" id="converterRate">Loading rates...</div>
+                <button id="depositBtn" onclick="depositQToken()" style="display: none; width: 100%; margin-top: 15px; background: var(--gold); color: black; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s;">Buy & Deposit Q Token</button>
             </div>
 
-            <!-- QUICKSTART GUIDE -->
-            <div class="user-guide animate-in delay-2">
-                <h3>⚡ QuickStart Guide</h3>
-                <div class="guide-step">
-                    <div class="step-num">1</div>
-                    <div class="step-text">
-                        <h4>Select Asset</h4>
-                        <p>Choose the currency or asset you own (USD, Gold, BTC...).</p>
-                    </div>
+            <!-- WALLET SUMMARY -->
+            <div class="user-guide animate-in delay-2" style="justify-content: flex-start;">
+                <h3>👛 My Q Wallet</h3>
+                <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; border: 1px solid var(--border);">
+                    <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 5px;">Available Balance</div>
+                    <div id="indexQBalance" style="font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 700; color: #FFF;">0.00 <span style="color: var(--gold); font-size: 20px;">Q</span></div>
                 </div>
-                <div class="guide-step">
-                    <div class="step-num">2</div>
-                    <div class="step-text">
-                        <h4>Select AI Model</h4>
-                        <p>Pick the AI system for token conversion (GPT-4o, Claude 3.5...).</p>
-                    </div>
-                </div>
-                <div class="guide-step">
-                    <div class="step-num">3</div>
-                    <div class="step-text">
-                        <h4>Get Result</h4>
-                        <p>See the equivalent tokens based on real-time market rates.</p>
-                    </div>
-                </div>
-                <div
-                    style="margin-top: auto; font-size: 11px; color: var(--gold); background: rgba(212,175,55,0.1); padding: 10px; border-radius: 8px;">
-                    * Rates are calculated based on official provider API costs.
+                
+                <a href="wallet.html" style="display: block; background: var(--bg-hover); color: var(--text); text-align: center; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-weight: 600; margin-bottom: 10px; transition: 0.2s;">View Wallet Details</a>
+                <a href="market.html" style="display: block; background: rgba(0, 210, 255, 0.1); color: var(--cyan); text-align: center; padding: 12px; border-radius: 8px; border: 1px solid rgba(0, 210, 255, 0.2); font-weight: 600; transition: 0.2s;">Explore NFT Marketplace</a>
+                
+                <div style="margin-top: auto; font-size: 11px; color: var(--text-sub); text-align: center; margin-top: 20px;">
+                    * Q Token can be used to mint and buy NFTs.
                 </div>
             </div>
         </div>
@@ -1226,6 +1214,42 @@
             container.innerHTML = items + items; // duplicate for seamless loop
         }
 
+        // ===== Q TOKEN WALLET INTEGRATION =====
+        function updateIndexBalance() {
+            if(window.NFTDatabase) {
+                const user = window.NFTDatabase.users.find(u => u.id === "U001");
+                if(user) {
+                    document.getElementById('indexQBalance').innerHTML = `${user.q_balance.toFixed(2)} <span style="color: var(--gold); font-size: 20px;">Q</span>`;
+                }
+            }
+        }
+        
+        let pendingQTokens = 0;
+
+        function depositQToken() {
+            if(pendingQTokens > 0 && window.NFTDatabase) {
+                const user = window.NFTDatabase.users.find(u => u.id === "U001");
+                if(user) {
+                    user.q_balance += pendingQTokens;
+                    
+                    // Log transaction
+                    window.NFTDatabase.transactions.push({
+                        id: "TX_" + Date.now(),
+                        from: "FIAT_CRYPTO_SWAP",
+                        to: user.id,
+                        type: "DEPOSIT",
+                        amount_q: pendingQTokens,
+                        nft_id: null,
+                        timestamp: new Date().toISOString()
+                    });
+
+                    if(window.saveDB) window.saveDB(); // Lưu xuống LocalStorage
+                    updateIndexBalance();
+                    alert(`✅ Successfully deposited ${pendingQTokens.toFixed(2)} Q Tokens to your Wallet!`);
+                }
+            }
+        }
+
         // ===== CONVERTER =====
         function convert() {
             const amount = Math.max(0, parseFloat(document.getElementById('fromAmount').value) || 0);
@@ -1237,8 +1261,6 @@
 
             if (!toModel) return;
 
-            // Convert: fromAmount * fromUSD = total USD
-            // then: total USD / AI price per token = number of tokens
             const totalUSD = amount * fromUSD;
             const avgTokenPrice = (toModel.input + toModel.output) / 2;
             const tokens = totalUSD / avgTokenPrice * 1_000_000;
@@ -1251,17 +1273,25 @@
             const benefitHTML = `<span style="color:${toModel.color}; font-weight:bold;">${toModel.benefit}</span>`;
             document.getElementById('converterRate').innerHTML =
                 `1 ${from} ≈ ${(fromUSD / avgTokenPrice * 1e6).toLocaleString(undefined, { maximumFractionDigits: 0 })} ${toModel.name} tokens <br> Benefit: ${benefitHTML}`;
+                
+            // Toggle Deposit Button for Q Token
+            if(to === 'Q') {
+                pendingQTokens = tokens; // assuming 1 token = 1 Q Token for demo (since Q output is 1)
+                document.getElementById('depositBtn').style.display = 'block';
+                document.getElementById('depositBtn').innerText = `Buy & Deposit ${tokens.toFixed(2)} Q Token`;
+            } else {
+                document.getElementById('depositBtn').style.display = 'none';
+                pendingQTokens = 0;
+            }
         }
 
         function swapCurrencies() {
-            const fromSel = document.getElementById('fromCurrency');
-            const toSel = document.getElementById('toCurrency');
-            // Can't fully swap since they have different option sets, but we can signal
             document.getElementById('converterRate').innerHTML = '⇅ Swap feature coming soon';
         }
 
         // ===== INIT =====
         fetchPrices();
+        setTimeout(updateIndexBalance, 500); // give time for script to load
         setInterval(() => {
             if (!document.hidden) {
                 fetchPrices();

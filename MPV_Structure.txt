@@ -38,8 +38,15 @@
 - [x] Buy Now: Direct links to official providers (OpenRouter, Azure, Cloud).
 - [x] Sync Badge: Live pulsing status indicator for data freshness.
 
+5. NFT & Q TOKEN ECOSYSTEM (PHASE 2 - COMPLETE)
+---------------------------------------------
+- [x] Module 1: NFT Minting (Upload -> AI Rating -> Mint & Reward Q Token).
+- [x] Module 2: Q Token & NFT Wallet Management.
+- [x] Module 3: NFT Marketplace (Buy/Sell with Q Token).
+- [x] Module 4: Burn Mechanism for refunding Q Token.
+
 ---
-Status: READY FOR PRODUCTION (v1.5.0 CLOUD-NATIVE)
-Last Update: 2026-03-06
+Status: IN TRANSITION TO NFT ECOSYSTEM (v2.0)
+Last Update: 2026-05-08
 ---
 👑 Powered by Quantix AI Core

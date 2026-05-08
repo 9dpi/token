@@ -1,105 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Terminal — AI Token Index</title>
-    <meta name="description"
-        content="Real-time terminal for AI Tokens. Monitor market rates, technical charts, and system conversion logs.">
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.binance.com; img-src 'self' data:;">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
+    <title>Q Marketplace — Discover AI-Evaluated Digital Assets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <script src="nft_data_model.js"></script>
     <style>
-        /* ===== VARIABLES ===== */
         :root {
+            --bg-base: #050505;
+            --bg-card: #0e0e0e;
+            --neon-blue: #00d2ff;
+            --neon-purple: #8a2be2;
+            --neon-pink: #ff007f;
             --gold: #D4AF37;
-            --gold-dark: #B8860B;
-            --green: #0ECB81;
-            --red: #F6465D;
-            --cyan: #00D2FF;
-            --bg: #000000;
-            --bg-card: #0D1117;
-            --bg-panel: #161B22;
-            --border: #21262D;
-            --text: #E6EDF3;
-            --text-sub: #8B949E;
-            --text-dim: #484F58;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-base);
+            color: var(--text-main);
             font-family: 'Outfit', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 0%, rgba(138, 43, 226, 0.15), transparent 40%),
+                radial-gradient(circle at 90% 100%, rgba(0, 210, 255, 0.1), transparent 40%);
+            background-attachment: fixed;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 10px;
-        }
-
-        /* ===== HEADER ===== */
+        /* ===== NAVIGATION ===== */
         .header {
-            background: #0D1117;
-            border-bottom: 1px solid var(--border);
-            height: 56px;
+            background: #181A20;
+            border-bottom: 1px solid var(--glass-border);
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
-            flex-shrink: 0;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
+        .header-left { display: flex; align-items: center; }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            text-decoration: none;
         }
 
         .logo-icon {
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--gold), #B8860B);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: black;
             font-weight: 800;
-            font-size: 14px;
+            font-size: 16px;
         }
 
         .logo-text {
@@ -110,515 +79,314 @@
             text-transform: uppercase;
         }
 
-        .nav-tabs {
-            display: flex;
-            gap: 2px;
-        }
-
-        .nav-tabs a {
-            padding: 6px 14px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-sub);
-            border-radius: 6px;
-            transition: 0.2s;
-        }
-
-        .nav-tabs a:hover {
-            color: var(--text);
-        }
-
-        .nav-tabs a.active {
-            color: var(--cyan);
-        }
-
-        .status-bar {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 12px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--green);
-            border-radius: 50%;
-            box-shadow: 0 0 6px var(--green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1
-            }
-
-            50% {
-                opacity: 0.4
-            }
-        }
-
-        /* ===== MAIN LAYOUT ===== */
-        .main-grid {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 300px 1fr 320px;
-            overflow: hidden;
-        }
-
-        /* ===== LEFT SIDEBAR: PAIR SELECTOR ===== */
-        .sidebar-left {
-            background: var(--bg-card);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .sidebar-search {
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .sidebar-search input {
-            width: 100%;
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            outline: none;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        .sidebar-search input:focus {
-            border-color: var(--cyan);
-        }
-
-        .pair-list {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .pair-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            cursor: pointer;
-            transition: 0.15s;
-        }
-
-        .pair-item:hover {
-            background: var(--bg-panel);
-        }
-
-        .pair-item.active {
-            background: rgba(0, 210, 255, 0.08);
-            border-left: 3px solid var(--cyan);
-        }
-
-        .pair-item .left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .pair-item .icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            background: var(--bg-panel);
-        }
-
-        .pair-item .symbol {
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .pair-item .fullname {
-            font-size: 11px;
-            color: var(--text-sub);
-        }
-
-        .pair-item .price {
-            font-family: 'JetBrains Mono';
-            font-size: 13px;
-            font-weight: 600;
-            text-align: right;
-        }
-
-        .pair-item .change {
-            font-family: 'JetBrains Mono';
-            font-size: 11px;
-            font-weight: 600;
-            text-align: right;
-        }
-
-        /* Sidebar Converter */
-        .sidebar-converter {
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
-            background: rgba(212, 175, 55, 0.03);
-        }
-
-        .side-conv-title {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--gold);
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-        }
-
-        .side-conv-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .side-conv-row input {
-            flex: 1;
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-family: 'JetBrains Mono';
-            width: 100%;
-        }
-
-        .side-conv-row select {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 6px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-        }
-
-        /* ===== CENTER: CHART & TABLE ===== */
-        .center-panel {
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .chart-pair-info {
+        .header-right {
             display: flex;
             align-items: center;
             gap: 16px;
         }
 
-        .chart-pair-name {
-            font-size: 22px;
-            font-weight: 800;
-        }
-
-        .chart-pair-price {
-            font-size: 28px;
-            font-weight: 700;
-            font-family: 'JetBrains Mono';
-        }
-
-        .chart-timeframes {
+        .main-nav {
             display: flex;
             gap: 4px;
         }
 
-        .chart-timeframes button {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-sub);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
-            font-family: 'Outfit';
-            transition: 0.15s;
-        }
-
-        .chart-timeframes button.active,
-        .chart-timeframes button:hover {
-            background: var(--cyan);
-            color: black;
-            border-color: var(--cyan);
-        }
-
-        .chart-area {
-            flex: 1;
-            padding: 0 16px;
-            overflow: hidden;
-            position: relative;
-            min-height: 400px;
-            /* Đảm bảo biểu đồ luôn có không gian tối thiểu */
-        }
-
-        #mainChart {
-            width: 100%;
-            height: 100%;
-            min-height: 400px;
-        }
-
-        /* Execution Table */
-        .exec-section {
-            height: 220px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .exec-header {
-            display: flex;
-            gap: 2px;
+        .main-nav a {
             padding: 8px 16px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .exec-tab {
-            background: transparent;
-            border: none;
-            color: var(--text-sub);
-            padding: 6px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 4px;
-            font-family: 'Outfit';
-        }
-
-        .exec-tab.active {
-            color: var(--cyan);
-            background: rgba(0, 210, 255, 0.1);
-        }
-
-        .exec-table-wrap {
-            flex: 1;
-            overflow-y: auto;
-            padding: 0 16px;
-        }
-
-        .exec-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-        }
-
-        .exec-table th {
-            text-align: left;
-            padding: 8px;
-            color: var(--text-dim);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 11px;
-            position: sticky;
-            top: 0;
-            background: var(--bg-card);
-        }
-
-        .exec-table td {
-            padding: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .status-pill {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 3px;
-            text-transform: uppercase;
-        }
-
-        .status-active {
-            background: rgba(0, 210, 255, 0.15);
-            color: var(--cyan);
-        }
-
-        .status-completed {
-            background: rgba(14, 203, 129, 0.15);
-            color: var(--green);
-        }
-
-        .status-expired {
-            background: rgba(246, 70, 93, 0.15);
-            color: var(--red);
-        }
-
-        /* ===== RIGHT SIDEBAR: AI ANALYSIS ===== */
-        .sidebar-right {
-            background: var(--bg-card);
-            border-left: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .sidebar-right-header {
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
             font-size: 14px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-weight: 600;
+            color: #848E9C;
+            border-radius: 6px;
+            transition: 0.2s;
+            text-decoration: none;
         }
 
-        .ai-section {
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
+        .main-nav a:hover {
+            color: var(--gold);
+            background: rgba(212, 175, 55, 0.08);
         }
 
-        .ai-section-title {
-            font-size: 11px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .ai-metric {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            font-size: 13px;
-        }
-
-        .ai-metric .label {
-            color: var(--text-sub);
-        }
-
-        .ai-metric .value {
-            font-weight: 700;
-            font-family: 'JetBrains Mono';
-        }
-
-        .thinking-log {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-        }
-
-        .thinking-log-title {
-            font-size: 11px;
-            color: var(--cyan);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .log-entry {
-            font-family: 'JetBrains Mono';
-            font-size: 11px;
-            color: var(--text-sub);
-            line-height: 1.8;
-            padding-left: 12px;
-            border-left: 2px solid var(--border);
-            margin-bottom: 8px;
-        }
-
-        .log-entry .timestamp {
-            color: var(--text-dim);
-        }
-
-        .log-entry .highlight {
-            color: var(--cyan);
-        }
-
-        .log-entry .warn {
+        .main-nav a.active {
             color: var(--gold);
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* ===== HERO SECTION ===== */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        .hero-gradient-text {
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 40px;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 40px;
+        }
+
+        .stat-box .num {
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-main);
+        }
+
+        .stat-box .label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== MARKETPLACE LAYOUT ===== */
+        .marketplace {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+            flex: 1;
+        }
+
+        /* Sidebar Filters */
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .filter-group {
+            margin-bottom: 30px;
+        }
+
+        .filter-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 0;
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: color 0.2s;
+            font-weight: 600;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            color: var(--neon-blue);
+        }
+
+        .filter-btn.active::before {
+            content: "▸ ";
+        }
+
+        /* Grid */
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
         @media (max-width: 1200px) {
-            .main-grid {
+            .nft-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 900px) {
+            .marketplace {
                 grid-template-columns: 1fr;
             }
-
-            .sidebar-left,
-            .sidebar-right {
-                display: none;
+            .sidebar {
+                position: static;
+            }
+            .nft-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .nft-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-                overflow-y: auto;
-                height: calc(100vh - 120px);
-            }
-
-            .center-panel {
-                display: none !important;
-            }
-
-            .sidebar-left,
-            .sidebar-right {
-                display: flex !important;
-                border: none;
-                overflow: visible;
-                background: var(--bg);
-            }
-
-            .sidebar-right {
-                border-top: 1px solid var(--border);
-                padding-top: 20px;
-                background: var(--bg-card);
-            }
-
-            .header {
-                height: auto;
-                flex-direction: column;
-                padding: 15px;
-                gap: 15px;
-            }
-
-            .nav-tabs {
-                width: 100%;
-                overflow-x: auto;
-                justify-content: center;
-                padding-bottom: 5px;
-            }
-
-            .status-bar {
-                display: none !important;
-            }
-
-            .pair-list,
-            .thinking-log {
-                flex: none;
-                height: auto;
-                max-height: 400px;
-            }
+        .nft-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
+
+        .nft-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(138, 43, 226, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(138, 43, 226, 0.2);
+        }
+
+        .nft-image-container {
+            height: 280px;
+            background: #111;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            overflow: hidden;
+        }
+        
+        .nft-image-container::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .nft-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 2;
+        }
+
+        .nft-info {
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nft-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin: 0 0 5px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nft-creator {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .nft-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .price-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .price-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .ai-score {
+            text-align: right;
+        }
+        
+        .ai-score .score-val {
+            color: var(--neon-blue);
+            font-weight: 800;
+        }
+
+        .btn-buy {
+            width: 100%;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nft-card:hover .btn-buy {
+            background: var(--text-main);
+            color: #000;
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(14, 203, 129, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 9999;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
     </style>
 </head>
-
 <body>
 
-    <!-- HEADER -->
+    <!-- NAVIGATION -->
     <header class="header">
         <div class="header-left">
             <a href="index.html" class="logo">
@@ -626,367 +394,215 @@
                 <span class="logo-text">AI TOKEN INDEX</span>
             </a>
         </div>
-        <div class="nav-right-group" style="display: flex; align-items: center; gap: 20px;">
-            <nav class="nav-tabs">
+        <div class="header-right">
+            <nav class="main-nav" id="mainNav">
                 <a href="index.html">Home</a>
-                <a href="market.html" class="active">Market</a>
+                <a href="market.html" class="active">NFT Market</a>
                 <a href="ai-models.html">AI Models</a>
+                <a href="wallet.html" style="color: var(--gold);">Q Wallet</a>
                 <a href="https://9dpi.github.io/quantix-ai-core/index.html" target="_blank">Quantix AI</a>
-                <a href="https://www.linkedin.com/in/cuongvq/" target="_blank">Contact</a>
             </nav>
-            <div class="status-bar" style="border-left: 1px solid var(--border); padding-left: 20px;">
-                <span class="status-dot"></span>
-                <span style="color:var(--green); font-weight:700;">LIVE FEED</span>
-            </div>
         </div>
     </header>
 
-    <!-- MAIN 3-COLUMN LAYOUT -->
-    <div class="main-grid">
-
-        <!-- LEFT: PAIR LIST -->
-        <aside class="sidebar-left">
-            <div class="sidebar-search">
-                <input type="text" id="pairSearch" placeholder="🔍 Search pairs..." oninput="filterPairs(this.value)">
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Discover the Next Generation of <span class="hero-gradient-text">AI-Evaluated</span> Assets.</h1>
+        <p>The premier decentralized marketplace on the Q Token Ecosystem. Buy, sell, and discover high-quality digital files secured by NFT technology and curated by AI intelligence.</p>
+        
+        <div class="hero-stats">
+            <div class="stat-box">
+                <div class="num" id="statVolume">1.2M</div>
+                <div class="label">Total Volume (Q)</div>
             </div>
-
-            <!-- Sidebar Converter -->
-            <div class="sidebar-converter">
-                <div class="side-conv-title">Quick Converter</div>
-                <div class="side-conv-row">
-                    <input type="number" id="sideAmount" value="1" oninput="sideConvert()">
-                    <select id="sideFrom" onchange="sideConvert()">
-                        <option value="USD">USD</option>
-                        <option value="BTC">BTC</option>
-                        <option value="XAU">GOLD</option>
-                    </select>
-                </div>
-                <div class="side-conv-row">
-                    <input type="text" id="sideResult" value="—" readonly style="color:var(--gold)">
-                    <select id="sideTo" onchange="sideConvert()">
-                        <option value="GPT4O">GPT4o</option>
-                        <option value="CLAUDE">CLAUDE</option>
-                        <option value="DEEPSEEK">DEEP</option>
-                    </select>
-                </div>
+            <div class="stat-box">
+                <div class="num" id="statListed">245</div>
+                <div class="label">Assets Listed</div>
             </div>
-
-            <div class="pair-list" id="pairList"></div>
-        </aside>
-
-        <!-- CENTER: CHART + EXECUTION -->
-        <main class="center-panel">
-            <div class="chart-header">
-                <div class="chart-pair-info">
-                    <span class="chart-pair-name" id="activePairName">BTC / Q</span>
-                    <span class="chart-pair-price" id="activePairPrice" style="color:var(--green)">—</span>
-                    <span id="activePairChange" style="font-size:14px; font-weight:600;"></span>
-                </div>
-                <div class="chart-timeframes">
-                    <button>1m</button>
-                    <button>5m</button>
-                    <button>15m</button>
-                    <button class="active">1h</button>
-                    <button>4h</button>
-                    <button>1D</button>
-                </div>
+            <div class="stat-box">
+                <div class="num">1.4x</div>
+                <div class="label">Avg AI Score</div>
             </div>
+        </div>
+    </section>
 
-            <div class="chart-area" id="mainChart"></div>
-
-            <div class="exec-section">
-                <div class="exec-header">
-                    <button class="exec-tab active">Token Execution Log</button>
-                    <button class="exec-tab">System Diagnostics</button>
-                    <button class="exec-tab">Conversion History</button>
-                </div>
-                <div class="exec-table-wrap">
-                    <table class="exec-table">
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Pair</th>
-                                <th>AI Model</th>
-                                <th>Tokens</th>
-                                <th>Cost (Q)</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="execBody">
-                            <tr>
-                                <td style="color:var(--text-dim)">09:21:03</td>
-                                <td>USD/GPT-4o</td>
-                                <td>🤖 GPT-4o</td>
-                                <td style="font-family:'JetBrains Mono'">1,024,000</td>
-                                <td style="font-family:'JetBrains Mono'; color:var(--gold)">6.40 Q</td>
-                                <td><span class="status-pill status-completed">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--text-dim)">09:18:47</td>
-                                <td>BTC/DeepSeek</td>
-                                <td>🔍 DeepSeek-V3</td>
-                                <td style="font-family:'JetBrains Mono'">12,500,000</td>
-                                <td style="font-family:'JetBrains Mono'; color:var(--gold)">8.56 Q</td>
-                                <td><span class="status-pill status-completed">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--text-dim)">09:15:22</td>
-                                <td>EUR/Claude</td>
-                                <td>🟤 Claude 3.5</td>
-                                <td style="font-family:'JetBrains Mono'">500,000</td>
-                                <td style="font-family:'JetBrains Mono'; color:var(--gold)">4.50 Q</td>
-                                <td><span class="status-pill status-active">Processing</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--text-dim)">09:10:11</td>
-                                <td>XAU/Gemini</td>
-                                <td>♊ Gemini 2.5</td>
-                                <td style="font-family:'JetBrains Mono'">8,000,000</td>
-                                <td style="font-family:'JetBrains Mono'; color:var(--gold)">45.00 Q</td>
-                                <td><span class="status-pill status-expired">Timeout</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <!-- MARKETPLACE -->
+    <main class="marketplace">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="filter-group">
+                <div class="filter-title">Categories</div>
+                <button class="filter-btn active" onclick="filterMarket('all', this)">All Categories</button>
+                <button class="filter-btn" onclick="filterMarket('image', this)">Digital Art</button>
+                <button class="filter-btn" onclick="filterMarket('3d', this)">3D Models</button>
+                <button class="filter-btn" onclick="filterMarket('video', this)">Video & Animation</button>
+                <button class="filter-btn" onclick="filterMarket('audio', this)">Audio & Music</button>
+                <button class="filter-btn" onclick="filterMarket('code', this)">Source Code</button>
             </div>
-        </main>
-
-        <!-- RIGHT: AI ANALYSIS -->
-        <aside class="sidebar-right">
-            <div class="sidebar-right-header">
-                <span style="color:var(--cyan)">⚡</span> System Status Feed
-            </div>
-
-            <div class="ai-section">
-                <div class="ai-section-title">Operational Status</div>
-                <div class="ai-metric"><span class="label">Network</span><span class="value"
-                        style="color:var(--green)">✓
-                        STABLE</span></div>
-                <div class="ai-metric"><span class="label">API Sync</span><span class="value">Active</span></div>
-                <div class="ai-metric"><span class="label">Sync Accuracy</span><span class="value"
-                        style="color:var(--cyan)">99.9%</span></div>
-            </div>
-
-            <div class="ai-section">
-                <div class="ai-section-title">Token Pricing Context</div>
-                <div class="ai-metric"><span class="label">GPT-4o Input</span><span class="value">$2.50/1M</span></div>
-                <div class="ai-metric"><span class="label">GPT-4o Output</span><span class="value">$10.00/1M</span>
-                </div>
-                <div class="ai-metric"><span class="label">DeepSeek-V3</span><span class="value"
-                        style="color:var(--green)">$0.27/1M</span></div>
-                <div class="ai-metric"><span class="label">Claude 3.5</span><span class="value">$3.00/1M</span></div>
-            </div>
-
-            <div class="ai-section">
-                <div class="ai-section-title">Risk Analysis</div>
-                <div class="ai-metric"><span class="label">API Stability</span><span class="value"
-                        style="color:var(--green)">99.2%</span></div>
-                <div class="ai-metric"><span class="label">Rate Limit Risk</span><span class="value"
-                        style="color:var(--gold)">Low</span></div>
-                <div class="ai-metric"><span class="label">Slippage Est.</span><span class="value">0.02%</span></div>
-            </div>
-
-            <div class="thinking-log">
-                <div class="thinking-log-title"><span style="color:var(--cyan)">▸</span> System Event Logs</div>
-                <div class="log-entry">
-                    <span class="timestamp">[09:21:04]</span> <span class="highlight">INFO</span> Model pricing data
-                    refreshed. All conversion ratios updated.
-                </div>
-                <div class="log-entry">
-                    <span class="timestamp">[09:20:58]</span> <span class="highlight">SYNC</span> Rate update received.
-                    Currency buffers synchronized with Binance API.
-                </div>
-                <div class="log-entry">
-                    <span class="timestamp">[09:20:30]</span> <span class="highlight">INFO</span> WebSocket connection
-                    stable. Latency measured at 42ms.
-                </div>
-                <div class="log-entry">
-                    <span class="timestamp">[09:19:55]</span> AI Pricing: GPT-4o and DeepSeek-V3 rates confirmed. No
-                    change in unit costs.
-                </div>
-                <div class="log-entry">
-                    <span class="timestamp">[09:19:10]</span> <span class="highlight">EVENT</span> Conversion process
-                    logged for record #9102. Request validated.
-                </div>
+            
+            <div class="filter-group">
+                <div class="filter-title">Sort By</div>
+                <button class="filter-btn active">Recently Listed</button>
+                <button class="filter-btn">Price: Low to High</button>
+                <button class="filter-btn">Price: High to Low</button>
+                <button class="filter-btn">Highest AI Score</button>
             </div>
         </aside>
-    </div>
+
+        <!-- NFT Grid -->
+        <div class="nft-grid" id="marketGrid">
+            <!-- Rendered via JS -->
+        </div>
+    </main>
+
+    <div class="toast" id="toastMsg">Transaction Successful!</div>
 
     <script>
-        // ===== PAIR DATA =====
-        const PAIRS = [
-            { id: 'BTC', name: 'Bitcoin', sym: '₿', type: 'crypto', binance: 'BTCUSDT', fb: 97000 },
-            { id: 'ETH', name: 'Ethereum', sym: 'Ξ', type: 'crypto', binance: 'ETHUSDT', fb: 3800 },
-            { id: 'BNB', name: 'BNB', sym: '⬡', type: 'crypto', binance: 'BNBUSDT', fb: 680 },
-            { id: 'SOL', name: 'Solana', sym: '◎', type: 'crypto', binance: 'SOLUSDT', fb: 190 },
-            { id: 'DOGE', name: 'Dogecoin', sym: '🐕', type: 'crypto', binance: 'DOGEUSDT', fb: 0.35 },
-            { id: 'USD', name: 'US Dollar', sym: '🇺🇸', type: 'fiat', binance: null, fb: 1.0 },
-            { id: 'EUR', name: 'Euro', sym: '🇪🇺', type: 'fiat', binance: 'EURUSDT', fb: 1.08 },
-            { id: 'GBP', name: 'Pound', sym: '🇬🇧', type: 'fiat', binance: 'GBPUSDT', fb: 1.27 },
-            { id: 'XAU', name: 'Gold (oz)', sym: '🥇', type: 'metal', binance: null, fb: 2650 },
-        ];
+        // Load Listings from DB
+        const LISTINGS = window.NFTDatabase ? window.NFTDatabase.listings : [];
 
-        let prices = {};
-        let activePair = 'BTC';
+        const grid = document.getElementById('marketGrid');
 
-        async function fetchAll() {
-            try {
-                const syms = PAIRS.filter(p => p.binance).map(p => `"${p.binance}"`);
-                const res = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbols=[${syms.join(',')}]`);
-                const data = await res.json();
-                data.forEach(d => {
-                    const p = PAIRS.find(x => x.binance === d.symbol);
-                    if (p) prices[p.id] = { price: +d.lastPrice, change: +d.priceChangePercent, vol: +d.quoteVolume };
-                });
-            } catch (e) { console.warn('API err', e); }
-
-            PAIRS.forEach(p => {
-                if (!prices[p.id]) prices[p.id] = { price: p.fb, change: +(Math.random() * 4 - 2).toFixed(2), vol: Math.random() * 1e9 };
-            });
-
-            renderPairList();
-            updateActivePanel();
-            sideConvert();
-        }
-
-        // ===== SIDE CONVERTER =====
-        const AI_PRICING = {
-            GPT4O: { name: 'GPT-4o', avg: 6.25 },
-            GEMINI: { name: 'Gemini 2.5', avg: 5.62 },
-            DEEPSEEK: { name: 'DeepSeek-V3', avg: 0.68 },
-            CLAUDE: { name: 'Claude 3.5', avg: 9.00 }
-        };
-
-        function sideConvert() {
-            const amount = parseFloat(document.getElementById('sideAmount').value) || 0;
-            const from = document.getElementById('sideFrom').value;
-            const to = document.getElementById('sideTo').value;
-
-            const fromUSD = prices[from]?.price || 1;
-            const tokens = (amount * fromUSD) / AI_PRICING[to].avg * 1000000;
-
-            document.getElementById('sideResult').value = tokens > 1000000
-                ? (tokens / 1000000).toFixed(1) + 'M'
-                : Math.round(tokens / 1000) + 'K';
-        }
-
-        function renderPairList(filter = '') {
-            const el = document.getElementById('pairList');
-            const filtered = PAIRS.filter(p => p.id.toLowerCase().includes(filter.toLowerCase()) || p.name.toLowerCase().includes(filter.toLowerCase()));
-
-            el.innerHTML = filtered.map(p => {
-                const d = prices[p.id] || { price: p.fb, change: 0 };
-                const chg = d.change;
-                const cls = chg >= 0 ? 'color:var(--green)' : 'color:var(--red)';
-                const sign = chg >= 0 ? '+' : '';
-
-                return `
-                    <div class="pair-item ${p.id === activePair ? 'active' : ''}" onclick="selectPair('${p.id}')">
-                        <div class="left">
-                            <div class="icon">${p.sym}</div>
+        function renderMarket(items) {
+            grid.innerHTML = '';
+            items.forEach(nft => {
+                const card = document.createElement('div');
+                card.className = 'nft-card';
+                card.innerHTML = `
+                    <div class="nft-badge">${nft.type.toUpperCase()}</div>
+                    <div class="nft-image-container" style="background: ${nft.gradient};">
+                        <span style="position:relative; z-index:1;">${nft.icon}</span>
+                    </div>
+                    <div class="nft-info">
+                        <h3 class="nft-title">${nft.title}</h3>
+                        <div class="nft-creator">By ${nft.creator}</div>
+                        
+                        <div class="nft-price-row">
                             <div>
-                                <div class="symbol">${p.id} / Q</div>
-                                <div class="fullname">${p.name}</div>
+                                <div class="price-label">Listed Price</div>
+                                <div class="price-value">${nft.price.toLocaleString()} Q</div>
+                            </div>
+                            <div class="ai-score">
+                                <div class="price-label">AI Quality</div>
+                                <div class="score-val">${nft.ai_score}x</div>
                             </div>
                         </div>
-                        <div>
-                            <div class="price">${d.price.toFixed(d.price > 100 ? 2 : 4)}</div>
-                            <div class="change" style="${cls}">${sign}${chg.toFixed(2)}%</div>
-                        </div>
+
+                        <button class="btn-buy" onclick="buyNFT('${nft.id}', ${nft.price})">Buy Now</button>
                     </div>
                 `;
-            }).join('');
-        }
-
-        function filterPairs(val) { renderPairList(val); }
-
-        function selectPair(id) {
-            activePair = id;
-            renderPairList();
-            updateActivePanel();
-            renderChart();
-        }
-
-        function updateActivePanel() {
-            const d = prices[activePair] || { price: 0, change: 0 };
-            const pair = PAIRS.find(p => p.id === activePair);
-            document.getElementById('activePairName').textContent = `${activePair} / Q`;
-            document.getElementById('activePairPrice').textContent = d.price.toFixed(d.price > 100 ? 2 : 6);
-            document.getElementById('activePairPrice').style.color = d.change >= 0 ? 'var(--green)' : 'var(--red)';
-            const sign = d.change >= 0 ? '+' : '';
-            document.getElementById('activePairChange').textContent = `${sign}${d.change.toFixed(2)}%`;
-            document.getElementById('activePairChange').style.color = d.change >= 0 ? 'var(--green)' : 'var(--red)';
-        }
-
-        // ===== CHART =====
-        let mainChart = null;
-
-        function renderChart() {
-            const d = prices[activePair] || { price: 1 };
-            const basePrice = d.price;
-            // Generate fake candlestick data
-            const data = [];
-            const now = Date.now();
-            for (let i = 50; i >= 0; i--) {
-                const t = now - i * 3600000;
-                const o = basePrice * (1 + (Math.random() - 0.5) * 0.04);
-                const c = o * (1 + (Math.random() - 0.5) * 0.03);
-                const h = Math.max(o, c) * (1 + Math.random() * 0.01);
-                const l = Math.min(o, c) * (1 - Math.random() * 0.01);
-                data.push({ x: new Date(t), y: [o, h, l, c].map(v => +v.toFixed(2)) });
-            }
-
-            if (mainChart) mainChart.destroy();
-
-            mainChart = new ApexCharts(document.getElementById('mainChart'), {
-                series: [{ data }],
-                chart: {
-                    type: 'candlestick',
-                    height: '100%',
-                    background: 'transparent',
-                    toolbar: { show: false },
-                    fontFamily: 'Outfit',
-                },
-                plotOptions: {
-                    candlestick: {
-                        colors: { upward: '#0ECB81', downward: '#F6465D' }
-                    }
-                },
-                xaxis: {
-                    type: 'datetime',
-                    labels: { style: { colors: '#484F58', fontSize: '11px' } },
-                    axisBorder: { show: false },
-                    axisTicks: { show: false },
-                },
-                yaxis: {
-                    labels: {
-                        style: { colors: '#484F58', fontSize: '11px' },
-                        formatter: v => v > 100 ? v.toFixed(0) : v.toFixed(4)
-                    }
-                },
-                grid: {
-                    borderColor: '#21262D',
-                    strokeDashArray: 2,
-                },
-                tooltip: {
-                    theme: 'dark',
-                },
-                theme: { mode: 'dark' }
+                grid.appendChild(card);
             });
-            mainChart.render();
         }
 
-        // ===== INIT =====
-        fetchAll().then(() => renderChart());
-        setInterval(fetchAll, 10000);
+        function filterMarket(type, btnElement) {
+            // Update active state
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // Filter items
+            const currentListings = window.NFTDatabase ? window.NFTDatabase.listings : [];
+            if (type === 'all') {
+                renderMarket(currentListings);
+            } else {
+                const filtered = currentListings.filter(n => n.type === type);
+                renderMarket(filtered);
+            }
+        }
+
+        function buyNFT(id, price) {
+            const confirmBuy = confirm(`Are you sure you want to purchase this NFT for ${price} Q Tokens?`);
+            if (confirmBuy) {
+                if (window.NFTDatabase) {
+                    const user = window.NFTDatabase.users.find(u => u.id === "U001");
+                    if (user) {
+                        if (user.q_balance >= price) {
+                            
+                            const listingIndex = window.NFTDatabase.listings.findIndex(l => l.id === id);
+                            if (listingIndex === -1) {
+                                alert("Listing no longer available.");
+                                return;
+                            }
+                            const listing = window.NFTDatabase.listings[listingIndex];
+
+                            // Deduct from buyer
+                            user.q_balance -= price;
+                            
+                            // Check if it's a real user-minted NFT
+                            const realNft = window.NFTDatabase.nfts.find(n => n.id === id);
+                            if (realNft) {
+                                // Add money to seller
+                                const seller = window.NFTDatabase.users.find(u => u.username === listing.creator.replace('@',''));
+                                if (seller) {
+                                    seller.q_balance += price;
+                                }
+                                
+                                // Transfer ownership
+                                realNft.owner_id = user.id;
+                                realNft.status = 'wallet';
+                            } else {
+                                // It's a mock default listing, let's "mint" it for the buyer
+                                window.NFTDatabase.nfts.push({
+                                    id: listing.id,
+                                    owner_id: user.id,
+                                    file_hash: "hash_" + listing.id,
+                                    file_type: listing.type,
+                                    size_mb: 5.0,
+                                    ai_score: listing.ai_score,
+                                    q_reward_minted: price * 0.8, // Mock original reward
+                                    metadata_url: "",
+                                    title: listing.title,
+                                    description: "Bought from market",
+                                    created_at: new Date().toISOString(),
+                                    status: "wallet"
+                                });
+                            }
+
+                            // Remove listing
+                            window.NFTDatabase.listings.splice(listingIndex, 1);
+                            
+                            // Log transaction
+                            window.NFTDatabase.transactions.push({
+                                id: "TX_" + Date.now(),
+                                from: user.id,
+                                to: realNft ? realNft.owner_id : "MARKET_ESCROW",
+                                type: "BUY_NFT",
+                                amount_q: -price,
+                                nft_id: id,
+                                timestamp: new Date().toISOString()
+                            });
+
+                            if (window.saveDB) window.saveDB();
+                            
+                            // Refresh Market UI
+                            renderMarket(window.NFTDatabase.listings);
+
+                            const toast = document.getElementById('toastMsg');
+                            toast.innerText = "Transaction Successful! Check your Wallet.";
+                            toast.classList.add('show');
+                            setTimeout(() => {
+                                toast.classList.remove('show');
+                            }, 3000);
+                        } else {
+                            alert(`Insufficient Q Tokens! You have ${user.q_balance.toFixed(2)} Q but need ${price} Q.`);
+                        }
+                    }
+                } else {
+                    alert("Database not loaded. Please refresh.");
+                }
+            }
+        }
+
+        // Init
+        renderMarket(window.NFTDatabase ? window.NFTDatabase.listings : []);
+        
+        // Randomize stats slightly to look alive
+        setInterval(() => {
+            const vol = 1200000 + Math.floor(Math.random() * 50000);
+            document.getElementById('statVolume').innerText = (vol / 1000000).toFixed(2) + 'M';
+        }, 5000);
+
     </script>
-
-    <!-- FOOTER -->
-    <footer
-        style="background: #0D1117; border-top: 1px solid var(--border); padding: 30px 20px; text-align: center; color: var(--text-sub); font-size: 13px; flex-shrink: 0;">
-        <p>© 2026 AI Token Index — Powered by <a href="https://9dpi.github.io/quantix-ai-core/index.html"
-                target="_blank" style="color:var(--gold); font-weight:700;">Quantix AI Core</a></p>
-    </footer>
 </body>
-
 </html>

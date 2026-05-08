@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q Wallet & NFT Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="wallet.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-left">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">Q</div>
+                <span class="logo-text">AI TOKEN INDEX</span>
+            </a>
+        </div>
+        <div class="header-right">
+            <nav class="main-nav" id="mainNav">
+                <a href="index.html">Home</a>
+                <a href="market.html">NFT Market</a>
+                <a href="ai-models.html">AI Models</a>
+                <a href="wallet.html" class="active">Q Wallet</a>
+                <a href="https://9dpi.github.io/quantix-ai-core/index.html" target="_blank">Quantix AI</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        
+        <!-- Section 1: Account & Balance -->
+        <section class="glass-panel balance-section">
+            <div class="balance-header">
+                <h2>My Account</h2>
+                <div class="badge">Live</div>
+            </div>
+            
+            <div class="profile-info" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--glass-border);">
+                <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px;">Username: <span id="profileName" style="color: white; font-weight: 700;">...</span></div>
+                <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px;">User ID: <span id="profileId" style="color: white; font-family: 'JetBrains Mono';">...</span></div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">Wallet: <span id="profileWallet" style="color: var(--gold); font-family: 'JetBrains Mono';">...</span></div>
+            </div>
+
+            <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px;">Available Q Tokens</div>
+            <div class="balance-amount" id="qBalanceDisplay">0.00 <span class="currency">Q</span></div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="alert('Feature coming soon')">Send Q Token</button>
+                <button class="btn btn-secondary" onclick="alert('Feature coming soon')">Receive</button>
+            </div>
+        </section>
+
+        <!-- Section 2: Mint NFT Form -->
+        <section class="glass-panel mint-section">
+            <h2>Mint Digital File</h2>
+            <p class="sub-text">Upload your file to generate an AI-rated NFT and earn Q Token rewards.</p>
+            
+            <form id="mintForm" class="mint-form">
+                <div class="form-group">
+                    <label>File Upload</label>
+                    <input type="file" id="fileInput" required>
+                </div>
+                <div class="form-group">
+                    <label>Asset Title</label>
+                    <input type="text" id="nftTitle" placeholder="e.g. My Awesome 3D Model" required>
+                </div>
+                <div class="form-group">
+                    <label>Asset Type</label>
+                    <select id="nftType">
+                        <option value="image">Image (1.5x)</option>
+                        <option value="video">Video (3.0x)</option>
+                        <option value="audio">Audio (2.0x)</option>
+                        <option value="3d">3D Model (1.5x)</option>
+                        <option value="document">Document (1.0x)</option>
+                        <option value="code">Code (1.0x)</option>
+                    </select>
+                </div>
+                
+                <div class="preview-box" id="previewBox" style="display:none;">
+                    <h4>AI Evaluation Preview</h4>
+                    <div class="preview-details">
+                        <p>File Size: <span id="previewSize">0</span> MB</p>
+                        <p>Estimated Reward: <span id="previewReward" class="gold-text bold">0</span> Q</p>
+                        <p class="small-note">*Final reward depends on AI Quality Score during minting.</p>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary full-width" id="btnMint">Mint NFT (Cost: 0.01 GPT-4o)</button>
+            </form>
+        </section>
+
+        <!-- Section 3: My NFTs Gallery -->
+        <section class="glass-panel gallery-section full-width-panel">
+            <h2>My NFTs</h2>
+            <div class="nft-grid" id="nftGallery">
+                <!-- NFT Cards will be injected here via JS -->
+            </div>
+        </section>
+
+        <!-- Section 4: My Transactions -->
+        <section class="glass-panel history-section full-width-panel">
+            <h2>Transaction History</h2>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--glass-border); color: var(--text-muted); font-size: 0.85rem;">
+                            <th style="padding: 10px;">Time</th>
+                            <th style="padding: 10px;">Type</th>
+                            <th style="padding: 10px;">Amount (Q)</th>
+                            <th style="padding: 10px;">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="txHistoryTable">
+                        <!-- Rendered via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Load Data Model & Wallet Logic -->
+    <script src="nft_data_model.js"></script>
+    <script src="wallet.js"></script>
+</body>
+</html>
