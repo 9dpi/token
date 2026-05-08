@@ -51,6 +51,7 @@ const BACKEND_URL = "https://script.google.com/macros/s/AKfycbxxoIr2AGjT-eg3nxrP
 // Hàm lưu dữ liệu
 function saveDB() {
     if (typeof window !== 'undefined') {
+        DB.last_updated = Date.now(); // Đánh dấu thời gian lưu
         const dbStr = JSON.stringify(DB);
         // Lưu LocalStorage cho nhanh
         localStorage.setItem('NFT_DB', dbStr);
@@ -79,15 +80,24 @@ async function loadDBFromCloud() {
             const cloudData = await res.json();
             
             if (cloudData && !cloudData.status && !cloudData.error) {
-                // Hợp lệ, đè lên DB hiện tại
-                DB = cloudData;
-                localStorage.setItem('NFT_DB', JSON.stringify(DB));
-                console.log("Đã cập nhật DB từ Cloud!");
+                // Kiểm tra xung đột: Chỉ lấy từ Cloud nếu Cloud mới hơn Local
+                const localTime = DB.last_updated || 0;
+                const cloudTime = cloudData.last_updated || 0;
                 
-                // Refresh UI nếu đang ở trang Admin hoặc Market
-                if (typeof renderAdmin === 'function') renderAdmin();
-                if (typeof renderMarket === 'function') renderMarket(DB.listings);
-                if (typeof updateBalance === 'function') updateBalance();
+                if (cloudTime >= localTime || localTime === 0) {
+                    DB = cloudData;
+                    localStorage.setItem('NFT_DB', JSON.stringify(DB));
+                    console.log("Đã cập nhật DB từ Cloud!");
+                    
+                    // Refresh UI nếu đang ở trang Admin hoặc Market
+                    if (typeof renderAdmin === 'function') renderAdmin();
+                    if (typeof renderMarket === 'function') renderMarket(DB.listings);
+                    if (typeof updateBalance === 'function') updateBalance();
+                } else {
+                    console.log("Local DB mới hơn Cloud, bỏ qua sync để tránh mất dữ liệu (Race condition).");
+                    // Có thể tự động Push Local lên lại Cloud ở đây
+                    saveDB(); 
+                }
             }
         } catch (error) {
             console.error("Lỗi khi tải từ Cloud:", error);
@@ -237,10 +247,27 @@ if (typeof module !== 'undefined' && module.exports) {
     runTestCases();
 }
 
+function getCurrentUserId() {
+    if (typeof window !== 'undefined') {
+        return localStorage.getItem('CURRENT_USER_ID') || "U001";
+    }
+    return "U001";
+}
+
+function loginUser(userId) {
+    if (typeof window !== 'undefined') {
+        localStorage.setItem('CURRENT_USER_ID', userId);
+        alert("Switched to user: " + userId);
+        location.reload();
+    }
+}
+
 // Export cho môi trường Browser nếu cần nhúng vào HTML
 if (typeof window !== 'undefined') {
     window.NFTDatabase = DB;
     window.mintNFT = mintNFT;
     window.runTestCases = runTestCases;
     window.saveDB = saveDB;
+    window.getCurrentUserId = getCurrentUserId;
+    window.loginUser = loginUser;
 }

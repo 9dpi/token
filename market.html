@@ -515,7 +515,8 @@
             const confirmBuy = confirm(`Are you sure you want to purchase this NFT for ${price} Q Tokens?`);
             if (confirmBuy) {
                 if (window.NFTDatabase) {
-                    const user = window.NFTDatabase.users.find(u => u.id === "U001");
+                    const currentUserId = window.getCurrentUserId ? window.getCurrentUserId() : "U001";
+                    const user = window.NFTDatabase.users.find(u => u.id === currentUserId);
                     if (user) {
                         if (user.q_balance >= price) {
                             

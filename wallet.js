@@ -2,8 +2,11 @@
 // WALLET & NFT FRONTEND LOGIC (Phase 2)
 // ==========================================
 
-// Current logged in user (Mock)
-const CURRENT_USER_ID = "U001";
+// Current logged in user
+let CURRENT_USER_ID = "U001";
+if (typeof window !== 'undefined' && window.getCurrentUserId) {
+    CURRENT_USER_ID = window.getCurrentUserId();
+}
 
 // DOM Elements
 const qBalanceDisplay = document.getElementById('qBalanceDisplay');

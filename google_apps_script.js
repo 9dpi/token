@@ -15,20 +15,28 @@
  * 6. Copy URL Web App được tạo ra và thay vào biến BACKEND_URL trong dự án của bạn (file nft_data_model.js).
  */
 
-const SHEET_ID = 'ĐIỀN_ID_CỦA_GOOGLE_SHEET_VÀO_ĐÂY'; // Vd: '1BxiMvs0XRYFgwnAKnZJ-zQ2...'
-const DB_CELL = 'A1'; // Nơi lưu trữ toàn bộ chuỗi JSON của DB
+const SHEET_ID = 'ĐIỀN_ID_CỦA_GOOGLE_SHEET_VÀO_ĐÂY'; 
+const RAW_SHEET_NAME = 'RawData'; // Đổi tên Sheet1 thành RawData
+
+// Helper để lấy hoặc tạo Sheet mới
+function getOrCreateSheet(ss, sheetName) {
+  let sheet = ss.getSheetByName(sheetName);
+  if (!sheet) {
+    sheet = ss.insertSheet(sheetName);
+  }
+  return sheet;
+}
 
 function doGet(e) {
   try {
-    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
-    const dbString = sheet.getRange(DB_CELL).getValue();
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    const rawSheet = getOrCreateSheet(ss, RAW_SHEET_NAME);
+    const dbString = rawSheet.getRange('A1').getValue();
     
-    // Nếu sheet trống, trả về DB rỗng hoặc DB mặc định
     if (!dbString) {
       return ContentService.createTextOutput(JSON.stringify({ status: "empty" })).setMimeType(ContentService.MimeType.JSON);
     }
     
-    // Trả về JSON cho Client
     return ContentService.createTextOutput(dbString).setMimeType(ContentService.MimeType.JSON);
     
   } catch (error) {
@@ -38,18 +46,23 @@ function doGet(e) {
 
 function doPost(e) {
   try {
-    // Parse dữ liệu gửi lên từ Client (nft_data_model.js)
     const requestData = JSON.parse(e.postData.contents);
     
-    // Nếu request yêu cầu lưu DB
     if (requestData.action === 'save') {
-      const sheet = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
-      const newDbString = JSON.stringify(requestData.database);
+      const ss = SpreadsheetApp.openById(SHEET_ID);
+      const db = requestData.database;
       
-      // Ghi đè chuỗi JSON vào ô A1
-      sheet.getRange(DB_CELL).setValue(newDbString);
+      // 1. Lưu bản Raw (Chuỗi JSON) để hệ thống Web đọc cho nhanh
+      const rawSheet = getOrCreateSheet(ss, RAW_SHEET_NAME);
+      rawSheet.getRange('A1').setValue(JSON.stringify(db));
       
-      return ContentService.createTextOutput(JSON.stringify({ success: true, message: "DB Saved Successfully" })).setMimeType(ContentService.MimeType.JSON);
+      // 2. Tự động bung data ra các tab riêng biệt để Human (Admin) dễ quản lý
+      exportUsersToSheet(ss, db.users);
+      exportTransactionsToSheet(ss, db.transactions);
+      exportNFTsToSheet(ss, db.nfts);
+      exportListingsToSheet(ss, db.listings);
+      
+      return ContentService.createTextOutput(JSON.stringify({ success: true, message: "DB Saved & Exported to Tabs" })).setMimeType(ContentService.MimeType.JSON);
     }
     
     return ContentService.createTextOutput(JSON.stringify({ error: "Invalid action" })).setMimeType(ContentService.MimeType.JSON);
@@ -59,13 +72,81 @@ function doPost(e) {
   }
 }
 
+// ==========================================
+// HÀM XUẤT RA CÁC TAB QUẢN LÝ (DỄ ĐỌC)
+// ==========================================
+
+function exportUsersToSheet(ss, users) {
+  if (!users || users.length === 0) return;
+  const sheet = getOrCreateSheet(ss, 'Users');
+  sheet.clear();
+  
+  // Headers
+  const headers = ['User ID', 'Username', 'Wallet Address', 'Q Balance'];
+  const rows = [headers];
+  
+  // Data
+  users.forEach(u => {
+    rows.push([u.id, u.username, u.wallet_address, u.q_balance]);
+  });
+  
+  sheet.getRange(1, 1, rows.length, headers.length).setValues(rows);
+  // Format Header
+  sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#f3f3f3');
+}
+
+function exportTransactionsToSheet(ss, txs) {
+  if (!txs || txs.length === 0) return;
+  const sheet = getOrCreateSheet(ss, 'Transactions');
+  sheet.clear();
+  
+  const headers = ['TX ID', 'Time', 'Type', 'From', 'To', 'Amount (Q)', 'NFT ID'];
+  const rows = [headers];
+  
+  txs.forEach(tx => {
+    rows.push([tx.id, tx.timestamp, tx.type, tx.from, tx.to, tx.amount_q, tx.nft_id || '']);
+  });
+  
+  sheet.getRange(1, 1, rows.length, headers.length).setValues(rows);
+  sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#f3f3f3');
+}
+
+function exportNFTsToSheet(ss, nfts) {
+  if (!nfts || nfts.length === 0) return;
+  const sheet = getOrCreateSheet(ss, 'NFTs');
+  sheet.clear();
+  
+  const headers = ['NFT ID', 'Title', 'Owner ID', 'Type', 'Size (MB)', 'AI Score', 'Minted Reward (Q)', 'Status', 'Created At'];
+  const rows = [headers];
+  
+  nfts.forEach(nft => {
+    rows.push([nft.id, nft.title, nft.owner_id, nft.file_type, nft.size_mb, nft.ai_score, nft.q_reward_minted, nft.status, nft.created_at]);
+  });
+  
+  sheet.getRange(1, 1, rows.length, headers.length).setValues(rows);
+  sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#f3f3f3');
+}
+
+function exportListingsToSheet(ss, listings) {
+  if (!listings || listings.length === 0) return;
+  const sheet = getOrCreateSheet(ss, 'Listings (Market)');
+  sheet.clear();
+  
+  const headers = ['NFT ID', 'Title', 'Type', 'Creator', 'Listed Price (Q)', 'AI Score'];
+  const rows = [headers];
+  
+  listings.forEach(l => {
+    rows.push([l.id, l.title, l.type, l.creator, l.price, l.ai_score]);
+  });
+  
+  sheet.getRange(1, 1, rows.length, headers.length).setValues(rows);
+  sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#f3f3f3');
+}
+
 // Bật CORS cho phép gọi từ bất kỳ domain nào
 function doOptions(e) {
-  var headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Max-Age": "86400"
-  };
-  return ContentService.createTextOutput("").setMimeType(ContentService.MimeType.TEXT);
+  return ContentService.createTextOutput("").setMimeType(ContentService.MimeType.TEXT)
+    .setHeader("Access-Control-Allow-Origin", "*")
+    .setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+    .setHeader("Access-Control-Allow-Headers", "Content-Type");
 }

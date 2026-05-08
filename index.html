@@ -1228,7 +1228,8 @@
 
         function depositQToken() {
             if(pendingQTokens > 0 && window.NFTDatabase) {
-                const user = window.NFTDatabase.users.find(u => u.id === "U001");
+                const currentUserId = window.getCurrentUserId ? window.getCurrentUserId() : "U001";
+                const user = window.NFTDatabase.users.find(u => u.id === currentUserId);
                 if(user) {
                     user.q_balance += pendingQTokens;
                     
