@@ -1,6 +1,6 @@
 // ===== SYSTEM DATA: AI TOKEN INDEX =====
 // This file is automatically updated by price_scanner.js
-// Last Scan: 2026-07-13 02:01 AM
+// Last Scan: 2026-07-14 01:47 AM
 
 const AI_PRICING = {
     "Q": {
@@ -120,4 +120,4 @@ const MARKET_PAIRS = [
     { id: 'USD', name: 'US Dollar', symbol: '🇺🇸', type: 'fiat', binance: null, fallback: 1.0 }
 ];
 
-const LAST_UPDATE = "2026-07-13 02:01 AM";
+const LAST_UPDATE = "2026-07-14 01:47 AM";
