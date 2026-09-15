@@ -1,6 +1,6 @@
 // ===== SYSTEM DATA: AI TOKEN INDEX =====
 // This file is automatically updated by price_scanner.js
-// Last Scan: 2026-09-14 02:42 AM
+// Last Scan: 2026-09-15 02:45 AM
 
 const AI_PRICING = {
     "Q": {
@@ -37,8 +37,8 @@ const AI_PRICING = {
     },
     "LLAMA": {
         "name": "Llama 3.1 405B",
-        "input": 5.33,
-        "output": 16,
+        "input": 3.5,
+        "output": 3.5,
         "icon": "logos/llama.svg",
         "color": "#0668E1",
         "benefit": "Open-Source Powerhouse"
@@ -90,11 +90,11 @@ const AI_BENEFITS_DATA = [
     {
         "id": "LLAMA",
         "model": "Llama 3.1 405B",
-        "provider": "azure_ai",
-        "price": 5.33,
+        "provider": "together_ai",
+        "price": 3.5,
         "savings": "Market Rate",
         "speed": "Dynamic",
-        "vfm": "9.5/10",
+        "vfm": "9.7/10",
         "benefit": "Open-Source Powerhouse",
         "buyUrl": "https://azure.microsoft.com/pricing"
     },
@@ -120,4 +120,4 @@ const MARKET_PAIRS = [
     { id: 'USD', name: 'US Dollar', symbol: '🇺🇸', type: 'fiat', binance: null, fallback: 1.0 }
 ];
 
-const LAST_UPDATE = "2026-09-14 02:42 AM";
+const LAST_UPDATE = "2026-09-15 02:45 AM";
