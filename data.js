@@ -1,6 +1,6 @@
 // ===== SYSTEM DATA: AI TOKEN INDEX =====
 // This file is automatically updated by price_scanner.js
-// Last Scan: 2026-11-18 05:23 AM
+// Last Scan: 2026-11-19 05:19 AM
 
 const AI_PRICING = {
     "Q": {
@@ -45,8 +45,8 @@ const AI_PRICING = {
     },
     "MISTRAL": {
         "name": "Mistral Large",
-        "input": 0.5,
-        "output": 1.5,
+        "input": 0.7,
+        "output": 2.0999999999999996,
         "icon": "logos/mistral.svg",
         "color": "#FD5339",
         "benefit": "European Efficiency"
@@ -102,7 +102,7 @@ const AI_BENEFITS_DATA = [
         "id": "MISTRAL",
         "model": "Mistral Large",
         "provider": "mistral",
-        "price": 0.5,
+        "price": 0.7,
         "savings": "Market Rate",
         "speed": "Dynamic",
         "vfm": "9.9/10",
@@ -120,4 +120,4 @@ const MARKET_PAIRS = [
     { id: 'USD', name: 'US Dollar', symbol: '🇺🇸', type: 'fiat', binance: null, fallback: 1.0 }
 ];
 
-const LAST_UPDATE = "2026-11-18 05:23 AM";
+const LAST_UPDATE = "2026-11-19 05:19 AM";
